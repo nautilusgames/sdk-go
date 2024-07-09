@@ -30,7 +30,7 @@ func TestListGames(t *testing.T) {
 	mParams := make(map[string]string)
 	mParams["page"] = "1"
 	mParams["page_size"] = "20"
-	games, err := sv.ListGames(mParams, "Bearer "+token.Token)
+	games, err := sv.ListGames(mParams, token.Token)
 	if err != nil {
 		fmt.Println(err)
 		return

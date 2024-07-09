@@ -38,7 +38,7 @@ func (c *Client) BuildHeader(token string) map[string]string {
 	mHeader[constant.XAPIkey] = c.apiKey
 	mHeader[constant.XTenantId] = c.tenantID
 	if len(token) > 0 {
-		mHeader[constant.Authorization] = token
+		mHeader[constant.Authorization] = "Bearer " + token
 	}
 	return mHeader
 }
