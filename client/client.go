@@ -1,11 +1,11 @@
 package client
 
 import (
-	"github.com/sdk-go/constant"
 	"net/http"
 
 	"go.uber.org/zap"
 
+	"github.com/sdk-go/constant"
 	sdkhttp "github.com/sdk-go/http"
 )
 
@@ -23,14 +23,26 @@ type Client struct {
 	apiKey   string
 }
 
-func NewClient(client *http.Client, log *zap.Logger, domain, tenantID, apiKey string) (*Client, error) {
+func NewClient(client *http.Client, log *zap.Logger) *Client {
 	return &Client{
-		Logger:   log,
-		client:   sdkhttp.NewClientWrapper(client, log),
-		domain:   domain,
-		tenantID: tenantID,
-		apiKey:   apiKey,
-	}, nil
+		Logger: log,
+		client: sdkhttp.NewClientWrapper(client, log),
+	}
+}
+
+func (c *Client) WithAPIKey(apiKey string) *Client {
+	c.apiKey = apiKey
+	return c
+}
+
+func (c *Client) WithTenantID(tenantID string) *Client {
+	c.tenantID = tenantID
+	return c
+}
+
+func (c *Client) WithDomain(domain string) *Client {
+	c.domain = domain
+	return c
 }
 
 func (c *Client) BuildHeader(token string) map[string]string {

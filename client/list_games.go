@@ -2,8 +2,9 @@ package client
 
 import (
 	"fmt"
-	"go.uber.org/zap"
 	"net/http"
+
+	"go.uber.org/zap"
 
 	"github.com/sdk-go/builder"
 	"github.com/sdk-go/model"
