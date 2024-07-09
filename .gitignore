@@ -1,0 +1,33 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+*.cov
+coverage.html
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+*.dat
+
+# Local cache for infrastructure apply
+.terragrunt-cache
+
+# Dependency directories (ignore for library, keep for service)
+vendor/
+
+# IDE metadata
+.idea/
+.vscode/
+
+# MacOS metadata
+.DS_Store
+
+# Support ignore temporary build image at local
+/Dockerfile
+tmp
+tmp/
