@@ -47,13 +47,13 @@ type GetWalletRequest struct {
 }
 
 type GetWalletResponse struct {
-	Data  *PlayerWallet `protobuf:"bytes,1,opt,name=data,proto3" json:"data"`
-	Error *Error        `protobuf:"bytes,2,opt,name=error,proto3" json:"error"`
+	Data  *PlayerWallet `json:"data"`
+	Error *Error        `json:"error"`
 }
 
 type PlayerWallet struct {
 	Balance  int64 `json:"balance"`
-	LastTxId int64 `son:"last_tx_id"`
+	LastTxId int64 `json:"last_tx_id"`
 }
 
 type WalletResponse struct {

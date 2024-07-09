@@ -2,6 +2,12 @@ package model
 
 import "time"
 
+type ListGamesRequest struct {
+	Page     uint32 `json:"page"`
+	PageSize uint32 `json:"page_size"`
+	//TODO - add more ...
+}
+
 type GameResponse struct {
 	Games []Game `json:"games"`
 }

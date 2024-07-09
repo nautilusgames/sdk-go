@@ -11,17 +11,17 @@ import (
 )
 
 func TestGetToken(t *testing.T) {
-	log := &zap.Logger{}
+	log := zap.NewExample()
 	sv, err := client.NewClient(&http.Client{},
 		log,
-		"https://test.com",
+		"https://your-domain.com",
 		"your-tenant-id",
 		"your-api-key",
 	)
 	if err != nil {
 		return
 	}
-	token, err := sv.GetToken()
+	token, err := sv.CreateToken()
 	if err != nil {
 		fmt.Println(err)
 		return

@@ -8,13 +8,14 @@ import (
 	"go.uber.org/zap"
 
 	"github.com/sdk-go/client"
+	"github.com/sdk-go/model"
 )
 
 func TestListGames(t *testing.T) {
-	log := &zap.Logger{}
+	log := zap.NewExample()
 	sv, err := client.NewClient(&http.Client{},
 		log,
-		"https://test.com",
+		"https://your-domain.com",
 		"your-tenant-id",
 		"your-api-key",
 	)
@@ -22,18 +23,17 @@ func TestListGames(t *testing.T) {
 		return
 	}
 	// Call API Get Token support API call ListGames
-	token, err := sv.GetToken()
+	token, err := sv.CreateToken()
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	mParams := make(map[string]string)
-	mParams["page"] = "1"
-	mParams["page_size"] = "20"
-	games, err := sv.ListGames(mParams, token.Token)
+	games, err := sv.ListGames(&model.ListGamesRequest{
+		Page:     1,
+		PageSize: 10,
+	}, token.Token)
 	if err != nil {
-		fmt.Println(err)
 		return
 	}
 
