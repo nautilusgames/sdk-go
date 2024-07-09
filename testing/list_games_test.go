@@ -2,10 +2,12 @@ package testing
 
 import (
 	"fmt"
-	"github.com/sdk-go/client"
-	"go.uber.org/zap"
 	"net/http"
 	"testing"
+
+	"go.uber.org/zap"
+
+	"github.com/sdk-go/client"
 )
 
 func TestListGames(t *testing.T) {
