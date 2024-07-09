@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"net/http"
 
-	"go.uber.org/zap"
-
 	"github.com/sdk-go/builder"
 	"github.com/sdk-go/model"
 )
@@ -17,11 +15,13 @@ func (s *Client) ListGames(params map[string]string, header map[string]string) (
 	var resp *model.GameResponse
 	url, err := builder.BuildParameterUrl(params, fmt.Sprintf("%s%s", s.domain, EndpointListGames))
 	if err != nil {
+
 		return nil, err
 	}
+	fmt.Println(url.String())
 	err = s.client.Send(url.String(), header, "", http.MethodGet, &resp)
 	if err != nil {
-		s.Logger.Error("call get list games error", zap.Error(err))
+		fmt.Println(err)
 		return nil, err
 	}
 	return resp, nil
