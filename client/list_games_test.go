@@ -1,4 +1,4 @@
-package example
+package client
 
 import (
 	"context"
@@ -8,7 +8,6 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/sdk-go/client"
 	"github.com/sdk-go/model"
 )
 
@@ -16,7 +15,7 @@ func TestListGames(t *testing.T) {
 	var (
 		ctx = context.TODO()
 		log = zap.NewExample()
-		sv  = client.NewClient(&http.Client{}).
+		sv  = NewClient(&http.Client{}).
 			WithDomain("your-domain").
 			WithAPIKey("your-api-key").
 			WithTenantID("your-tenant-id")
