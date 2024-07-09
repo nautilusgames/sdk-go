@@ -1,4 +1,4 @@
-package testing
+package example
 
 import (
 	"fmt"
@@ -12,15 +12,10 @@ import (
 
 func TestGetToken(t *testing.T) {
 	log := zap.NewExample()
-	sv, err := client.NewClient(&http.Client{},
-		log,
-		"https://your-domain.com",
-		"your-tenant-id",
-		"your-api-key",
-	)
-	if err != nil {
-		return
-	}
+	sv := client.NewClient(&http.Client{}, log).
+		WithDomain("your-domain").
+		WithAPIKey("your-api-key").
+		WithTenantID("your-tenant-id")
 	token, err := sv.CreateToken()
 	if err != nil {
 		fmt.Println(err)
