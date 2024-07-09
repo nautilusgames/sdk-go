@@ -13,10 +13,6 @@ import (
 )
 
 const (
-	_httpPathPrefix = "/lucci/v1"
-
-	_contentType    = "Content-Type"
-	_contentTypeVal = "application/json; charset=UTF-8"
 	_x_api_key      = "x-api-key"
 	_x_tenant_id    = "x-tenant-id"
 	_x_tenant_token = "x-tenant-token"
@@ -63,9 +59,9 @@ func (UnimplementedHttpServer) Payout(_ context.Context, _ *model.PayoutRequest)
 	return nil, nil
 }
 
-func RegisterHttpServer(server HttpServer, logger *zap.Logger) *mux.Router {
+func RegisterHttpServer(server HttpServer, logger *zap.Logger, httpPathPrefix string) *mux.Router {
 	router := mux.NewRouter()
-	sub := router.PathPrefix(_httpPathPrefix).Subrouter()
+	sub := router.PathPrefix(httpPathPrefix).Subrouter()
 
 	router.NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		logger.Error("Route not found: %s %s\n", zap.String("method", r.Method), zap.Any("url", r.URL))
