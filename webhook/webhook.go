@@ -3,6 +3,7 @@ package webhook
 import (
 	"context"
 	"fmt"
+	"github.com/sdk-go/constant"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -13,11 +14,6 @@ import (
 )
 
 const (
-	_x_api_key      = "x-api-key"
-	_x_tenant_id    = "x-tenant-id"
-	_x_tenant_token = "x-tenant-token"
-	_x_game_id      = "x-game-id"
-
 	_verifyPlayer = "/player/verify"
 	_walletGet    = "/wallet/get"
 	_walletCreate = "/wallet/create"
@@ -185,9 +181,9 @@ func payout(server HttpServer, logger *zap.Logger) func(w http.ResponseWriter, r
 
 func readHeader(r *http.Request) *model.HookRequestHeader {
 	header := &model.HookRequestHeader{}
-	header.XApiKey = r.Header.Get(_x_api_key)
-	header.XTenantId = r.Header.Get(_x_tenant_id)
-	header.XTenantToken = r.Header.Get(_x_tenant_token)
-	header.XGameId = r.Header.Get(_x_game_id)
+	header.XApiKey = r.Header.Get(constant.XAPIkey)
+	header.XTenantId = r.Header.Get(constant.XTenantId)
+	header.XTenantToken = r.Header.Get(constant.XTenantToken)
+	header.XGameId = r.Header.Get(constant.XGameID)
 	return header
 }

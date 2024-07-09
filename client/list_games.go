@@ -11,7 +11,7 @@ import (
 // API support get list game follow token from API GetToken
 // Header :
 // Authorization : Your Token
-func (s *Client) ListGames(params map[string]string, header map[string]string) (*model.GameResponse, error) {
+func (s *Client) ListGames(params map[string]string, token string) (*model.GameResponse, error) {
 	var resp *model.GameResponse
 	url, err := builder.BuildParameterUrl(params, fmt.Sprintf("%s%s", s.domain, EndpointListGames))
 	if err != nil {
@@ -19,7 +19,7 @@ func (s *Client) ListGames(params map[string]string, header map[string]string) (
 		return nil, err
 	}
 	fmt.Println(url.String())
-	err = s.client.Send(url.String(), header, "", http.MethodGet, &resp)
+	err = s.client.Send(url.String(), s.BuildHeader(token), "", http.MethodGet, &resp)
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
