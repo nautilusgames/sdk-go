@@ -8,8 +8,8 @@ import (
 	"github.com/gorilla/mux"
 	"go.uber.org/zap"
 
-	"github.com/sdk-go/pkg/helper"
-	"github.com/sdk-go/pkg/model"
+	"github.com/sdk-go/builder"
+	"github.com/sdk-go/model"
 )
 
 const (
@@ -90,7 +90,7 @@ func verifyPlayer(server HttpServer, logger *zap.Logger) func(w http.ResponseWri
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
-		helper.SendResponse(w, response)
+		builder.SendResponse(w, response)
 	}
 }
 
@@ -105,10 +105,10 @@ func getWallet(server HttpServer, logger *zap.Logger) func(w http.ResponseWriter
 			},
 		}
 		headerRequest := readHeader(r)
-		if err := helper.ToRequest(r.Body, request); err != nil {
+		if err := builder.ToRequest(r.Body, request); err != nil {
 			logger.Error(err.Error(), zap.Error(err))
 			errorResponse.Error.Message = err.Error()
-			helper.SendResponse(w, errorResponse)
+			builder.SendResponse(w, errorResponse)
 			return
 		}
 		request.Header = headerRequest
@@ -116,10 +116,10 @@ func getWallet(server HttpServer, logger *zap.Logger) func(w http.ResponseWriter
 		if err != nil {
 			logger.Error(err.Error(), zap.Error(err))
 			errorResponse.Error.Message = err.Error()
-			helper.SendResponse(w, errorResponse)
+			builder.SendResponse(w, errorResponse)
 			return
 		}
-		helper.SendResponse(w, response)
+		builder.SendResponse(w, response)
 	}
 }
 
@@ -135,10 +135,10 @@ func bet(server HttpServer, logger *zap.Logger) func(w http.ResponseWriter, r *h
 			},
 		}
 		headerRequest := readHeader(r)
-		if err := helper.ToRequest(r.Body, request); err != nil {
+		if err := builder.ToRequest(r.Body, request); err != nil {
 			logger.Error(err.Error(), zap.Error(err))
 			response.Error.Message = err.Error()
-			helper.SendResponse(w, response)
+			builder.SendResponse(w, response)
 			return
 		}
 		request.Header = headerRequest
@@ -146,10 +146,10 @@ func bet(server HttpServer, logger *zap.Logger) func(w http.ResponseWriter, r *h
 		if err != nil {
 			logger.Error(err.Error(), zap.Error(err))
 			response.Error.Message = err.Error()
-			helper.SendResponse(w, response)
+			builder.SendResponse(w, response)
 			return
 		}
-		helper.SendResponse(w, response)
+		builder.SendResponse(w, response)
 	}
 }
 
@@ -165,10 +165,10 @@ func payout(server HttpServer, logger *zap.Logger) func(w http.ResponseWriter, r
 			},
 		}
 		headerRequest := readHeader(r)
-		if err := helper.ToRequest(r.Body, request); err != nil {
+		if err := builder.ToRequest(r.Body, request); err != nil {
 			logger.Error(err.Error(), zap.Error(err))
 			response.Error.Message = err.Error()
-			helper.SendResponse(w, response)
+			builder.SendResponse(w, response)
 			return
 		}
 		request.Header = headerRequest
@@ -176,10 +176,10 @@ func payout(server HttpServer, logger *zap.Logger) func(w http.ResponseWriter, r
 		if err != nil {
 			logger.Error(err.Error(), zap.Error(err))
 			response.Error.Message = err.Error()
-			helper.SendResponse(w, response)
+			builder.SendResponse(w, response)
 			return
 		}
-		helper.SendResponse(w, response)
+		builder.SendResponse(w, response)
 	}
 }
 

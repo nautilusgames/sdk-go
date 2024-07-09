@@ -8,7 +8,7 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/sdk-go/pkg/helper"
+	"github.com/sdk-go/builder"
 )
 
 type ClientWrapper struct {
@@ -39,7 +39,7 @@ func (c *ClientWrapper) Send(endpoint string, header map[string]string, body str
 	for k, v := range header {
 		req.Header.Add(k, v)
 	}
-	response, err := helper.ToResponse(c.HTTPClient.Do(req))
+	response, err := builder.ToResponse(c.HTTPClient.Do(req))
 	if err != nil {
 		return err
 	}

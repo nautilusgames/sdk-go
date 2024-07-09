@@ -1,4 +1,4 @@
-package helper
+package builder
 
 import "net/url"
 

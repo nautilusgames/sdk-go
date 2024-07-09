@@ -6,8 +6,8 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/sdk-go/pkg/helper"
-	"github.com/sdk-go/pkg/model"
+	"github.com/sdk-go/builder"
+	"github.com/sdk-go/model"
 )
 
 // API support get list game follow token from API GetToken
@@ -15,7 +15,7 @@ import (
 // Authorization : Your Token
 func (s *Client) ListGames(params map[string]string, header map[string]string) (*model.GameResponse, error) {
 	var resp *model.GameResponse
-	url, err := helper.BuildParameterUrl(params, fmt.Sprintf("%s%s", s.domain, EndpointListGames))
+	url, err := builder.BuildParameterUrl(params, fmt.Sprintf("%s%s", s.domain, EndpointListGames))
 	if err != nil {
 		return nil, err
 	}

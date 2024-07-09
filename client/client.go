@@ -5,7 +5,7 @@ import (
 
 	"go.uber.org/zap"
 
-	sdkhttp "github.com/sdk-go/pkg/http"
+	sdkhttp "github.com/sdk-go/http"
 )
 
 const (

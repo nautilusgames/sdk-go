@@ -6,7 +6,7 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/sdk-go/pkg/model"
+	"github.com/sdk-go/model"
 )
 
 // Create token for tenant that will be used to authenticate the tenant in the system
