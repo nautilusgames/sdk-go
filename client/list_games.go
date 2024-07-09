@@ -9,8 +9,7 @@ import (
 )
 
 // API support get list game follow token from API GetToken
-// Header :
-// Authorization : Your Token
+// params is pagination with page & page_size
 func (s *Client) ListGames(params map[string]string, token string) (*model.GameResponse, error) {
 	var resp *model.GameResponse
 	url, err := builder.BuildParameterUrl(params, fmt.Sprintf("%s%s", s.domain, EndpointListGames))
