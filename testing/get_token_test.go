@@ -15,8 +15,8 @@ func TestGetToken(t *testing.T) {
 	sv, err := client.NewClient(&http.Client{},
 		log,
 		"https://test.com",
-		"1",
-		"api-test",
+		"your-tenant-id",
+		"your-api-key",
 	)
 	if err != nil {
 		return
