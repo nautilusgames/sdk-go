@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	//Endpoint APIs for report
+	//Endpoint APIs
 	EndpointGetToken  = "/api/hydra/v1/token"
 	EndpointListGames = "/api/gnome/v1/games"
 )

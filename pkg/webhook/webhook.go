@@ -81,7 +81,7 @@ func RegisterHttpServer(server HttpServer, logger *zap.Logger) *mux.Router {
 
 func verifyPlayer(server HttpServer, logger *zap.Logger) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
-		// handler read request & call func execute verifySession
+		// handler read request & call func execute verifyPlayer
 
 		request := &model.VerifyPlayerRequest{}
 		headerRequest := readHeader(r)
@@ -100,7 +100,7 @@ func verifyPlayer(server HttpServer, logger *zap.Logger) func(w http.ResponseWri
 
 func getWallet(server HttpServer, logger *zap.Logger) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
-		// handler read request & call func execute walletGet
+		// handler read request & call func execute getWallet
 
 		request := &model.GetWalletRequest{}
 		errorResponse := &model.GetWalletResponse{
@@ -129,7 +129,7 @@ func getWallet(server HttpServer, logger *zap.Logger) func(w http.ResponseWriter
 
 func bet(server HttpServer, logger *zap.Logger) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
-		// handler read request & call func execute walletGet
+		// handler read request & call func execute bet
 
 		var err error
 		request := &model.BetRequest{}
@@ -159,7 +159,7 @@ func bet(server HttpServer, logger *zap.Logger) func(w http.ResponseWriter, r *h
 
 func payout(server HttpServer, logger *zap.Logger) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
-		// handler read request & call func execute walletGet
+		// handler read request & call func execute payout
 
 		var err error
 		request := &model.PayoutRequest{}
