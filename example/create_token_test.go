@@ -10,7 +10,7 @@ import (
 	"github.com/sdk-go/client"
 )
 
-func TestGetToken(t *testing.T) {
+func TestCreateToken(t *testing.T) {
 	log := zap.NewExample()
 	sv := client.NewClient(&http.Client{}, log).
 		WithDomain("your-domain").
