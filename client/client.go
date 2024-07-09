@@ -23,7 +23,7 @@ type Client struct {
 	apiKey   string
 }
 
-func NewClient(client *http.Client, domain, tenantID, apiKey string, log *zap.Logger) (*Client, error) {
+func NewClient(client *http.Client, log *zap.Logger, domain, tenantID, apiKey string) (*Client, error) {
 	return &Client{
 		Logger:   log,
 		client:   sdkhttp.NewClientWrapper(client, log),

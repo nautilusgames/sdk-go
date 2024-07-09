@@ -12,15 +12,16 @@ import (
 
 func TestListGames(t *testing.T) {
 	log := &zap.Logger{}
-	sv, err := client.NewClient(&http.Client{}, "https://p.ssn-571.com", "6", "1KAjw4y2Y5h6lOTb28OZojnBoBi+Rf73eIA/DoKID8w=", log)
+	sv, err := client.NewClient(&http.Client{},
+		log,
+		"https://test.com",
+		"1",
+		"api-test",
+	)
 	if err != nil {
 		return
 	}
-
-	mHeader := make(map[string]string)
-	mHeader["x-api-key"] = "1KAjw4y2Y5h6lOTb28OZojnBoBi+Rf73eIA/DoKID8w="
-	mHeader["x-tenant-id"] = "6"
-
+	// Call API Get Token support API call ListGames
 	token, err := sv.GetToken()
 	if err != nil {
 		fmt.Println(err)

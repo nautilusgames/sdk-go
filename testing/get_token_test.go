@@ -12,7 +12,12 @@ import (
 
 func TestGetToken(t *testing.T) {
 	log := &zap.Logger{}
-	sv, err := client.NewClient(&http.Client{}, "https://p.ssn-571.com", "6", "1KAjw4y2Y5h6lOTb28OZojnBoBi+Rf73eIA/DoKID8w=", log)
+	sv, err := client.NewClient(&http.Client{},
+		log,
+		"https://test.com",
+		"1",
+		"api-test",
+	)
 	if err != nil {
 		return
 	}
