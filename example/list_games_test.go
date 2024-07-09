@@ -13,7 +13,7 @@ import (
 
 func TestListGames(t *testing.T) {
 	log := zap.NewExample()
-	sv := client.NewClient(&http.Client{}, log).
+	sv := client.NewClient(&http.Client{}).
 		WithDomain("your-domain").
 		WithAPIKey("your-api-key").
 		WithTenantID("your-tenant-id")
@@ -28,6 +28,7 @@ func TestListGames(t *testing.T) {
 		PageSize: 10,
 	}, token.Token)
 	if err != nil {
+		log.Error("get list gamesfail", zap.Error(err))
 		return
 	}
 

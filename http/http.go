@@ -5,31 +5,20 @@ import (
 	"net/http"
 	"strings"
 
-	"go.uber.org/zap"
-
 	"github.com/sdk-go/builder"
 )
 
 type ClientWrapper struct {
-	logger     *zap.Logger
 	HTTPClient *http.Client
 }
 
-func NewClientWrapper(client *http.Client, logger *zap.Logger) *ClientWrapper {
-	//t := http.DefaultTransport.(*http.Transport).Clone()
-	//proxyUrl, _ := url.Parse("http://127.0.0.1:7951")
-	//t := &http.Transport{Proxy: http.ProxyURL(proxyUrl)}
-	//t.MaxIdleConns = 100
-	//t.MaxConnsPerHost = 100
-	//t.MaxIdleConnsPerHost = 100
-	//client.Transport = t
-
+func NewClientWrapper(client *http.Client) *ClientWrapper {
 	return &ClientWrapper{
-		logger:     logger,
 		HTTPClient: client,
 	}
 }
 
+// Send This function executes the API call based on the provided information, including method, body, header, and URL.
 func (c *ClientWrapper) Send(endpoint string, header map[string]string, body string, method string, resultObject interface{}) error {
 	req, err := http.NewRequest(method, endpoint, strings.NewReader(body))
 	if err != nil {

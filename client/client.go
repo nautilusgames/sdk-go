@@ -3,54 +3,58 @@ package client
 import (
 	"net/http"
 
-	"go.uber.org/zap"
-
-	"github.com/sdk-go/constant"
 	sdkhttp "github.com/sdk-go/http"
 )
 
 const (
+	authorization     = "Authorization"
+	xApiKey           = "x-api-key"
+	xTenantId         = "x-tenant-id"
+	tenantPlayerToken = "tenant-player-token"
+
 	//Endpoint APIs
 	EndpointGetToken  = "/api/hydra/v1/token"
 	EndpointListGames = "/api/gnome/v1/games"
 )
 
 type Client struct {
-	Logger   *zap.Logger
 	client   *sdkhttp.ClientWrapper
 	domain   string
 	tenantID string
 	apiKey   string
 }
 
-func NewClient(client *http.Client, log *zap.Logger) *Client {
+func NewClient(client *http.Client) *Client {
 	return &Client{
-		Logger: log,
-		client: sdkhttp.NewClientWrapper(client, log),
+		client: sdkhttp.NewClientWrapper(client),
 	}
 }
 
+// WithAPIKey is a function that helps add the API key value to the client struct for API calls.
 func (c *Client) WithAPIKey(apiKey string) *Client {
 	c.apiKey = apiKey
 	return c
 }
 
+// WithTenantID is a function that helps add the TenantID value to the client struct for API calls.
 func (c *Client) WithTenantID(tenantID string) *Client {
 	c.tenantID = tenantID
 	return c
 }
 
+// WithDomain is a function that helps add the Domain value to the client struct for API calls.
 func (c *Client) WithDomain(domain string) *Client {
 	c.domain = domain
 	return c
 }
 
+// BuildHeader This function supports building the header to convey information in the API when making a call.
 func (c *Client) BuildHeader(token string) map[string]string {
 	mHeader := make(map[string]string)
-	mHeader[constant.XAPIkey] = c.apiKey
-	mHeader[constant.XTenantId] = c.tenantID
+	mHeader[xApiKey] = c.apiKey
+	mHeader[xTenantId] = c.tenantID
 	if len(token) > 0 {
-		mHeader[constant.Authorization] = "Bearer " + token
+		mHeader[authorization] = "Bearer " + token
 	}
 	return mHeader
 }

@@ -6,6 +6,7 @@ import (
 	"strconv"
 )
 
+// StructToURLValues This function helps convert the request information in the struct into URL query parameters.
 func StructToURLValues(baseURL string, i interface{}) (*url.URL, error) {
 	// Create a URL object
 	u, err := url.Parse(baseURL)
