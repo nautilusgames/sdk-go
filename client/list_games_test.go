@@ -8,7 +8,7 @@ import (
 
 	"go.uber.org/zap"
 
-	"github.com/sdk-go/model"
+	"github.com/nautilusgames/sdk-go/model"
 )
 
 func TestListGames(t *testing.T) {
@@ -31,7 +31,6 @@ func TestListGames(t *testing.T) {
 		Page:     1,
 		PageSize: 10,
 	}, token.Token)
-
 	if err != nil {
 		log.Error("get list gamesfail", zap.Error(err))
 		return

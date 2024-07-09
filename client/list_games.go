@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/sdk-go/builder"
-	"github.com/sdk-go/model"
+	"github.com/nautilusgames/sdk-go/builder"
+	"github.com/nautilusgames/sdk-go/model"
 )
 
 // ListGames API support get list game follow token from API GetToken

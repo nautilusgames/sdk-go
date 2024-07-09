@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/sdk-go/builder"
+	"github.com/nautilusgames/sdk-go/builder"
 )
 
 type ClientWrapper struct {
