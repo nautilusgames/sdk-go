@@ -1,6 +1,7 @@
 package example
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"testing"
@@ -12,21 +13,26 @@ import (
 )
 
 func TestListGames(t *testing.T) {
-	log := zap.NewExample()
-	sv := client.NewClient(&http.Client{}).
-		WithDomain("your-domain").
-		WithAPIKey("your-api-key").
-		WithTenantID("your-tenant-id")
+	var (
+		ctx = context.TODO()
+		log = zap.NewExample()
+		sv  = client.NewClient(&http.Client{}).
+			WithDomain("your-domain").
+			WithAPIKey("your-api-key").
+			WithTenantID("your-tenant-id")
+	)
+
 	// Create Token support call API ListGames
-	token, err := sv.CreateToken()
+	token, err := sv.CreateToken(ctx)
 	if err != nil {
 		return
 	}
 
-	games, err := sv.ListGames(&model.ListGamesRequest{
+	games, err := sv.ListGames(ctx, &model.ListGamesRequest{
 		Page:     1,
 		PageSize: 10,
 	}, token.Token)
+
 	if err != nil {
 		log.Error("get list gamesfail", zap.Error(err))
 		return

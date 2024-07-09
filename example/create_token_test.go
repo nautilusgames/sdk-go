@@ -1,6 +1,7 @@
 package example
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"testing"
@@ -11,12 +12,16 @@ import (
 )
 
 func TestCreateToken(t *testing.T) {
-	log := zap.NewExample()
-	sv := client.NewClient(&http.Client{}).
-		WithDomain("your-domain").
-		WithAPIKey("your-api-key").
-		WithTenantID("your-tenant-id")
-	token, err := sv.CreateToken()
+	var (
+		ctx = context.TODO()
+		log = zap.NewExample()
+		sv  = client.NewClient(&http.Client{}).
+			WithDomain("your-domain").
+			WithAPIKey("your-api-key").
+			WithTenantID("your-tenant-id")
+	)
+
+	token, err := sv.CreateToken(ctx)
 	if err != nil {
 		log.Error("create token fail", zap.Error(err))
 		return

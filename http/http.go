@@ -1,6 +1,7 @@
 package http
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 	"strings"
@@ -19,8 +20,8 @@ func NewClientWrapper(client *http.Client) *ClientWrapper {
 }
 
 // Send This function executes the API call based on the provided information, including method, body, header, and URL.
-func (c *ClientWrapper) Send(endpoint string, header map[string]string, body string, method string, resultObject interface{}) error {
-	req, err := http.NewRequest(method, endpoint, strings.NewReader(body))
+func (c *ClientWrapper) Send(ctx context.Context, endpoint string, header map[string]string, body string, method string, resultObject interface{}) error {
+	req, err := http.NewRequestWithContext(ctx, method, endpoint, strings.NewReader(body))
 	if err != nil {
 		return err
 	}
