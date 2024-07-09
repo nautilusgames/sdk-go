@@ -1,11 +1,11 @@
 package client
 
 import (
-	"github.com/sdk-go/constant"
 	"net/http"
 
 	"go.uber.org/zap"
 
+	"github.com/sdk-go/constant"
 	sdkhttp "github.com/sdk-go/http"
 )
 
