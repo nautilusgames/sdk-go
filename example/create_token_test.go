@@ -18,7 +18,6 @@ func TestGetToken(t *testing.T) {
 		WithTenantID("your-tenant-id")
 	token, err := sv.CreateToken()
 	if err != nil {
-		fmt.Println(err)
 		return
 	}
 

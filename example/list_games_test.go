@@ -17,10 +17,9 @@ func TestListGames(t *testing.T) {
 		WithDomain("your-domain").
 		WithAPIKey("your-api-key").
 		WithTenantID("your-tenant-id")
-	// Call API Get Token support API call ListGames
+	// Create Token support call API ListGames
 	token, err := sv.CreateToken()
 	if err != nil {
-		fmt.Println(err)
 		return
 	}
 
