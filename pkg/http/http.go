@@ -3,10 +3,12 @@ package http
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/sdk-go/pkg/helper"
-	"go.uber.org/zap"
 	"net/http"
 	"strings"
+
+	"go.uber.org/zap"
+
+	"github.com/sdk-go/pkg/helper"
 )
 
 type ClientWrapper struct {
@@ -29,10 +31,13 @@ func NewClientWrapper(client *http.Client, logger *zap.Logger) *ClientWrapper {
 	}
 }
 
-func (c *ClientWrapper) Send(endpoint string, body string, method string, resultObject interface{}) error {
+func (c *ClientWrapper) Send(endpoint string, header map[string]string, body string, method string, resultObject interface{}) error {
 	req, err := http.NewRequest(method, endpoint, strings.NewReader(body))
 	if err != nil {
 		return err
+	}
+	for k, v := range header {
+		req.Header.Add(k, v)
 	}
 	response, err := helper.ToResponse(c.HTTPClient.Do(req))
 	if err != nil {
