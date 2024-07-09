@@ -3,7 +3,7 @@ package client
 import (
 	"net/http"
 
-	sdkhttp "github.com/sdk-go/http"
+	sdkhttp "github.com/nautilusgames/sdk-go/http"
 )
 
 const (
@@ -12,7 +12,7 @@ const (
 	xTenantId         = "x-tenant-id"
 	tenantPlayerToken = "tenant-player-token"
 
-	//Endpoint APIs
+	// Endpoint APIs
 	EndpointGetToken  = "/api/hydra/v1/token"
 	EndpointListGames = "/api/gnome/v1/games"
 )

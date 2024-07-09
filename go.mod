@@ -1,6 +1,6 @@
-module github.com/sdk-go
+module github.com/nautilusgames/sdk-go
 
-go 1.21.5
+go 1.22
 
 require (
 	github.com/gorilla/mux v1.8.1

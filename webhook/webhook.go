@@ -8,8 +8,8 @@ import (
 	"github.com/gorilla/mux"
 	"go.uber.org/zap"
 
-	"github.com/sdk-go/builder"
-	"github.com/sdk-go/model"
+	"github.com/nautilusgames/sdk-go/builder"
+	"github.com/nautilusgames/sdk-go/model"
 )
 
 const (
@@ -36,8 +36,7 @@ type HttpServer interface {
 	// Refund(ctx context.Context, request string) error // TODO
 }
 
-type UnimplementedHttpServer struct {
-}
+type UnimplementedHttpServer struct{}
 
 func (UnimplementedHttpServer) VerifyPlayer(_ context.Context, _ *model.VerifyPlayerRequest) (*model.VerifyPlayerResponse, error) {
 	fmt.Println("method VerifyPlayer not implemented")
