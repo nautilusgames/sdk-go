@@ -1,10 +1,10 @@
 package webhook
 
 type HookRequestHeader struct {
-	XApiKey      string `json:"x_api_key,omitempty"`      // x-api-key
-	XTenantId    string `json:"x_tenant_id,omitempty"`    // x-tenant-id
-	XTenantToken string `json:"x_tenant_token,omitempty"` // x-tenant-token
-	XGameId      string `json:"x_game_id,omitempty"`      // x-game-id
+	XApiKey            string `json:"x_api_key,omitempty"`             // x-api-key
+	XTenantId          string `json:"x_tenant_id,omitempty"`           // x-tenant-id
+	XTenantPlayerToken string `json:"x_tenant_player_token,omitempty"` // x-tenant-player-token
+	XGameId            string `json:"x_game_id,omitempty"`             // x-game-id
 }
 
 type Error struct {

@@ -7,10 +7,9 @@ import (
 )
 
 const (
-	authorization     = "Authorization"
-	xApiKey           = "x-api-key"
-	xTenantId         = "x-tenant-id"
-	tenantPlayerToken = "tenant-player-token"
+	authorization = "Authorization"
+	xApiKey       = "x-api-key"
+	xTenantId     = "x-tenant-id"
 
 	// Endpoint APIs
 	EndpointGetToken  = "/api/hydra/v1/token"

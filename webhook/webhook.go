@@ -12,10 +12,10 @@ import (
 )
 
 const (
-	_xApiKey      = "x-api-key"
-	_xTenantID    = "x-tenant-id"
-	_xTenantToken = "x-tenant-token"
-	_xGameID      = "x-game-id"
+	_xApiKey            = "x-api-key"
+	_xTenantID          = "x-tenant-id"
+	_xTenantPlayerToken = "x-tenant-player-token"
+	_xGameID            = "x-game-id"
 
 	_verifyPlayer = "/player/verify"
 	_walletGet    = "/wallet/get"
@@ -147,7 +147,7 @@ func readHeader(r *http.Request) *HookRequestHeader {
 	header := &HookRequestHeader{}
 	header.XApiKey = r.Header.Get(_xApiKey)
 	header.XTenantId = r.Header.Get(_xTenantID)
-	header.XTenantToken = r.Header.Get(_xTenantToken)
+	header.XTenantPlayerToken = r.Header.Get(_xTenantPlayerToken)
 	header.XGameId = r.Header.Get(_xGameID)
 	return header
 }
