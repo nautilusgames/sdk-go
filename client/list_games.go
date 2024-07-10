@@ -6,13 +6,12 @@ import (
 	"net/http"
 
 	"github.com/nautilusgames/sdk-go/builder"
-	"github.com/nautilusgames/sdk-go/model"
 )
 
 // ListGames API support get list game follow token from API GetToken
 // params is pagination with page & page_size
-func (s *Client) ListGames(ctx context.Context, request *model.ListGamesRequest, token string) (*model.GameResponse, error) {
-	var resp *model.GameResponse
+func (s *Client) ListGames(ctx context.Context, request *ListGamesRequest, token string) (*GameResponse, error) {
+	var resp *GameResponse
 	url, err := builder.StructToURLValues(fmt.Sprintf("%s%s", s.domain, EndpointListGames), request)
 	if err != nil {
 		return nil, err
