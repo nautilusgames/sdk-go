@@ -12,10 +12,10 @@ import (
 )
 
 const (
-	_x_api_key      = "x-api-key"
-	_x_tenant_id    = "x-tenant-id"
-	_x_tenant_token = "x-tenant-token"
-	_x_game_id      = "x-game-id"
+	_xApiKey      = "x-api-key"
+	_xTenantID    = "x-tenant-id"
+	_xTenantToken = "x-tenant-token"
+	_xGameID      = "x-game-id"
 
 	_verifyPlayer = "/player/verify"
 	_walletGet    = "/wallet/get"
@@ -145,9 +145,9 @@ func HandlePayout(logger *zap.Logger, handler Payout) http.HandlerFunc {
 
 func readHeader(r *http.Request) *model.HookRequestHeader {
 	header := &model.HookRequestHeader{}
-	header.XApiKey = r.Header.Get(_x_api_key)
-	header.XTenantId = r.Header.Get(_x_tenant_id)
-	header.XTenantToken = r.Header.Get(_x_tenant_token)
-	header.XGameId = r.Header.Get(_x_game_id)
+	header.XApiKey = r.Header.Get(_xApiKey)
+	header.XTenantId = r.Header.Get(_xTenantID)
+	header.XTenantToken = r.Header.Get(_xTenantToken)
+	header.XGameId = r.Header.Get(_xGameID)
 	return header
 }
