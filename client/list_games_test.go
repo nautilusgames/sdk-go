@@ -7,8 +7,6 @@ import (
 	"testing"
 
 	"go.uber.org/zap"
-
-	"github.com/nautilusgames/sdk-go/model"
 )
 
 func TestListGames(t *testing.T) {
@@ -27,7 +25,7 @@ func TestListGames(t *testing.T) {
 		return
 	}
 
-	games, err := sv.ListGames(ctx, &model.ListGamesRequest{
+	games, err := sv.ListGames(ctx, &ListGamesRequest{
 		Page:     1,
 		PageSize: 10,
 	}, token.Token)
