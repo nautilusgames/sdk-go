@@ -8,7 +8,6 @@ import (
 	"go.uber.org/zap"
 
 	"github.com/nautilusgames/sdk-go/builder"
-	"github.com/nautilusgames/sdk-go/model"
 )
 
 const (
@@ -27,19 +26,19 @@ const (
 
 type (
 	// player
-	VerifyPlayer func(ctx context.Context, request *model.VerifyPlayerRequest) (*model.VerifyPlayerResponse, error)
+	VerifyPlayer func(ctx context.Context, request *VerifyPlayerRequest) (*VerifyPlayerResponse, error)
 
 	// wallet
-	GetWallet func(ctx context.Context, request *model.GetWalletRequest) (*model.GetWalletResponse, error)
-	Bet       func(ctx context.Context, request *model.BetRequest) (*model.WalletResponse, error)
-	Payout    func(ctx context.Context, request *model.PayoutRequest) (*model.WalletResponse, error)
+	GetWallet func(ctx context.Context, request *GetWalletRequest) (*GetWalletResponse, error)
+	Bet       func(ctx context.Context, request *BetRequest) (*WalletResponse, error)
+	Payout    func(ctx context.Context, request *PayoutRequest) (*WalletResponse, error)
 )
 
 func HandleVerifyPlayer(logger *zap.Logger, handler VerifyPlayer) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// handler read request & call func execute verifyPlayer
 
-		request := &model.VerifyPlayerRequest{}
+		request := &VerifyPlayerRequest{}
 		headerRequest := readHeader(r)
 		request.Header = headerRequest
 		response, err := handler(r.Context(), request)
@@ -58,9 +57,9 @@ func HandleGetWallet(logger *zap.Logger, handler GetWallet) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// handler read request & call func execute getWallet
 
-		request := &model.GetWalletRequest{}
-		errorResponse := &model.GetWalletResponse{
-			Error: &model.Error{
+		request := &GetWalletRequest{}
+		errorResponse := &GetWalletResponse{
+			Error: &Error{
 				Code: http.StatusInternalServerError,
 			},
 		}
@@ -88,9 +87,9 @@ func HandleBet(logger *zap.Logger, handler Bet) http.HandlerFunc {
 		// handler read request & call func execute bet
 
 		var err error
-		request := &model.BetRequest{}
-		response := &model.WalletResponse{
-			Error: &model.Error{
+		request := &BetRequest{}
+		response := &WalletResponse{
+			Error: &Error{
 				Code: http.StatusInternalServerError,
 			},
 		}
@@ -118,9 +117,9 @@ func HandlePayout(logger *zap.Logger, handler Payout) http.HandlerFunc {
 		// handler read request & call func execute payout
 
 		var err error
-		request := &model.PayoutRequest{}
-		response := &model.WalletResponse{
-			Error: &model.Error{
+		request := &PayoutRequest{}
+		response := &WalletResponse{
+			Error: &Error{
 				Code: http.StatusInternalServerError,
 			},
 		}
@@ -143,8 +142,8 @@ func HandlePayout(logger *zap.Logger, handler Payout) http.HandlerFunc {
 	}
 }
 
-func readHeader(r *http.Request) *model.HookRequestHeader {
-	header := &model.HookRequestHeader{}
+func readHeader(r *http.Request) *HookRequestHeader {
+	header := &HookRequestHeader{}
 	header.XApiKey = r.Header.Get(_xApiKey)
 	header.XTenantId = r.Header.Get(_xTenantID)
 	header.XTenantToken = r.Header.Get(_xTenantToken)

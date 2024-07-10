@@ -1,6 +1,12 @@
-package model
+package client
 
-import "time"
+import (
+	"time"
+)
+
+type TokenResponse struct {
+	Token string `json:"token"`
+}
 
 type ListGamesRequest struct {
 	Page     uint32 `json:"page"`

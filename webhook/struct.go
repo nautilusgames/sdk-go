@@ -1,4 +1,4 @@
-package model
+package webhook
 
 type HookRequestHeader struct {
 	XApiKey      string `json:"x_api_key,omitempty"`      // x-api-key
@@ -10,10 +10,6 @@ type HookRequestHeader struct {
 type Error struct {
 	Code    int64  `json:"code"`
 	Message string `json:"message"`
-}
-
-type TokenResponse struct {
-	Token string `json:"token"`
 }
 
 type VerifyPlayerRequest struct {
@@ -30,6 +26,15 @@ type PlayerInfo struct {
 	Avatar   string `json:"avatar"`
 }
 
+type GetWalletRequest struct {
+	Header *HookRequestHeader `json:"header"`
+}
+
+type GetWalletResponse struct {
+	Data  *PlayerWallet `json:"data"`
+	Error *Error        `json:"error"`
+}
+
 type BetRequest struct {
 	SessionId int64              `json:"session_id"`
 	Amount    int64              `json:"amount"`
@@ -40,20 +45,6 @@ type PayoutRequest struct {
 	SessionId int64              `json:"session_id"`
 	Amount    int64              `json:"amount"`
 	Header    *HookRequestHeader `json:"header,omitempty"`
-}
-
-type GetWalletRequest struct {
-	Header *HookRequestHeader `json:"header"`
-}
-
-type GetWalletResponse struct {
-	Data  *PlayerWallet `json:"data"`
-	Error *Error        `json:"error"`
-}
-
-type PlayerWallet struct {
-	Balance  int64 `json:"balance"`
-	LastTxId int64 `json:"last_tx_id"`
 }
 
 type WalletResponse struct {
@@ -67,4 +58,9 @@ type WalletTransaction struct {
 	Amount     int64 `json:"amount"`
 	NewBalance int64 `json:"new_balance"`
 	CreatedAt  int64 `json:"created_at"`
+}
+
+type PlayerWallet struct {
+	Balance  int64 `json:"balance"`
+	LastTxId int64 `json:"last_tx_id"`
 }
