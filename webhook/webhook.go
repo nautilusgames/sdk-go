@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/gorilla/mux"
 	"go.uber.org/zap"
 
 	"github.com/nautilusgames/sdk-go/builder"
@@ -26,62 +25,24 @@ const (
 	_walletRefund = "/wallet/refund"
 )
 
-type HttpServer interface {
-	// add request or header to parameters/ handler response or error
-	VerifyPlayer(ctx context.Context, request *model.VerifyPlayerRequest) (*model.VerifyPlayerResponse, error)
-	GetWallet(ctx context.Context, request *model.GetWalletRequest) (*model.GetWalletResponse, error)
-	// CreateWallet(ctx context.Context, request string) error // does not exist?
-	Bet(ctx context.Context, request *model.BetRequest) (*model.WalletResponse, error)
-	Payout(ctx context.Context, request *model.PayoutRequest) (*model.WalletResponse, error)
-	// Refund(ctx context.Context, request string) error // TODO
-}
+type (
+	// player
+	VerifyPlayer func(ctx context.Context, request *model.VerifyPlayerRequest) (*model.VerifyPlayerResponse, error)
 
-type UnimplementedHttpServer struct{}
+	// wallet
+	GetWallet func(ctx context.Context, request *model.GetWalletRequest) (*model.GetWalletResponse, error)
+	Bet       func(ctx context.Context, request *model.BetRequest) (*model.WalletResponse, error)
+	Payout    func(ctx context.Context, request *model.PayoutRequest) (*model.WalletResponse, error)
+)
 
-func (UnimplementedHttpServer) VerifyPlayer(_ context.Context, _ *model.VerifyPlayerRequest) (*model.VerifyPlayerResponse, error) {
-	fmt.Println("method VerifyPlayer not implemented")
-	return nil, nil
-}
-
-func (UnimplementedHttpServer) GetWallet(_ context.Context, _ *model.GetWalletRequest) (*model.GetWalletResponse, error) {
-	fmt.Println("method GetWallet not implemented")
-	return nil, nil
-}
-
-func (UnimplementedHttpServer) Bet(_ context.Context, _ *model.BetRequest) (*model.WalletResponse, error) {
-	fmt.Println("method Bet not implemented")
-	return nil, nil
-}
-
-func (UnimplementedHttpServer) Payout(_ context.Context, _ *model.PayoutRequest) (*model.WalletResponse, error) {
-	fmt.Println("method Payout not implemented")
-	return nil, nil
-}
-
-func RegisterHttpServer(server HttpServer, logger *zap.Logger, httpPathPrefix string) *mux.Router {
-	router := mux.NewRouter()
-	sub := router.PathPrefix(httpPathPrefix).Subrouter()
-
-	router.NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		logger.Error("Route not found: %s %s\n", zap.String("method", r.Method), zap.Any("url", r.URL))
-	})
-
-	sub.HandleFunc(_verifyPlayer, verifyPlayer(server, logger)).Methods(http.MethodPost)
-	sub.HandleFunc(_walletGet, getWallet(server, logger)).Methods(http.MethodPost)
-	sub.HandleFunc(_walletBet, bet(server, logger)).Methods(http.MethodPost)
-	sub.HandleFunc(_walletPayout, payout(server, logger)).Methods(http.MethodPost)
-
-	return router
-}
-
-func verifyPlayer(server HttpServer, logger *zap.Logger) func(w http.ResponseWriter, r *http.Request) {
+func HandleVerifyPlayer(logger *zap.Logger, handler VerifyPlayer) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// handler read request & call func execute verifyPlayer
 
 		request := &model.VerifyPlayerRequest{}
 		headerRequest := readHeader(r)
 		request.Header = headerRequest
-		response, err := server.VerifyPlayer(r.Context(), request)
+		response, err := handler(r.Context(), request)
 		if err != nil {
 			fmt.Printf("Route not found: %s %s\n", r.Method, r.URL)
 
@@ -93,7 +54,7 @@ func verifyPlayer(server HttpServer, logger *zap.Logger) func(w http.ResponseWri
 	}
 }
 
-func getWallet(server HttpServer, logger *zap.Logger) func(w http.ResponseWriter, r *http.Request) {
+func HandleGetWallet(logger *zap.Logger, handler GetWallet) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// handler read request & call func execute getWallet
 
@@ -111,7 +72,7 @@ func getWallet(server HttpServer, logger *zap.Logger) func(w http.ResponseWriter
 			return
 		}
 		request.Header = headerRequest
-		response, err := server.GetWallet(r.Context(), request)
+		response, err := handler(r.Context(), request)
 		if err != nil {
 			logger.Error(err.Error(), zap.Error(err))
 			errorResponse.Error.Message = err.Error()
@@ -122,7 +83,7 @@ func getWallet(server HttpServer, logger *zap.Logger) func(w http.ResponseWriter
 	}
 }
 
-func bet(server HttpServer, logger *zap.Logger) func(w http.ResponseWriter, r *http.Request) {
+func HandleBet(logger *zap.Logger, handler Bet) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// handler read request & call func execute bet
 
@@ -141,7 +102,7 @@ func bet(server HttpServer, logger *zap.Logger) func(w http.ResponseWriter, r *h
 			return
 		}
 		request.Header = headerRequest
-		response, err = server.Bet(r.Context(), request)
+		response, err = handler(r.Context(), request)
 		if err != nil {
 			logger.Error(err.Error(), zap.Error(err))
 			response.Error.Message = err.Error()
@@ -152,7 +113,7 @@ func bet(server HttpServer, logger *zap.Logger) func(w http.ResponseWriter, r *h
 	}
 }
 
-func payout(server HttpServer, logger *zap.Logger) func(w http.ResponseWriter, r *http.Request) {
+func HandlePayout(handler Payout, logger *zap.Logger) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// handler read request & call func execute payout
 
@@ -171,7 +132,7 @@ func payout(server HttpServer, logger *zap.Logger) func(w http.ResponseWriter, r
 			return
 		}
 		request.Header = headerRequest
-		response, err = server.Payout(r.Context(), request)
+		response, err = handler(r.Context(), request)
 		if err != nil {
 			logger.Error(err.Error(), zap.Error(err))
 			response.Error.Message = err.Error()
