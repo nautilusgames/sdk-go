@@ -113,7 +113,7 @@ func HandleBet(logger *zap.Logger, handler Bet) http.HandlerFunc {
 	}
 }
 
-func HandlePayout(handler Payout, logger *zap.Logger) http.HandlerFunc {
+func HandlePayout(logger *zap.Logger, handler Payout) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// handler read request & call func execute payout
 
