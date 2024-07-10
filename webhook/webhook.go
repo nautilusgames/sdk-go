@@ -7,6 +7,7 @@ import (
 
 	"go.uber.org/zap"
 
+	"github.com/gorilla/mux"
 	"github.com/nautilusgames/sdk-go/builder"
 )
 
@@ -34,8 +35,8 @@ type (
 	Payout    func(ctx context.Context, request *PayoutRequest) (*WalletResponse, error)
 )
 
-func HandleVerifyPlayer(logger *zap.Logger, handler VerifyPlayer) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
+func HandleVerifyPlayer(mux *mux.Router, logger *zap.Logger, handler VerifyPlayer) {
+	mux.HandleFunc(_verifyPlayer, func(w http.ResponseWriter, r *http.Request) {
 		// handler read request & call func execute verifyPlayer
 
 		request := &VerifyPlayerRequest{}
@@ -50,11 +51,11 @@ func HandleVerifyPlayer(logger *zap.Logger, handler VerifyPlayer) http.HandlerFu
 			return
 		}
 		builder.SendResponse(w, response)
-	}
+	})
 }
 
-func HandleGetWallet(logger *zap.Logger, handler GetWallet) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
+func HandleGetWallet(mux *mux.Router, logger *zap.Logger, handler GetWallet) {
+	mux.HandleFunc(_walletGet, func(w http.ResponseWriter, r *http.Request) {
 		// handler read request & call func execute getWallet
 
 		request := &GetWalletRequest{}
@@ -79,11 +80,11 @@ func HandleGetWallet(logger *zap.Logger, handler GetWallet) http.HandlerFunc {
 			return
 		}
 		builder.SendResponse(w, response)
-	}
+	})
 }
 
-func HandleBet(logger *zap.Logger, handler Bet) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
+func HandleBet(mux *mux.Router, logger *zap.Logger, handler Bet) {
+	mux.HandleFunc(_walletBet, func(w http.ResponseWriter, r *http.Request) {
 		// handler read request & call func execute bet
 
 		var err error
@@ -109,11 +110,11 @@ func HandleBet(logger *zap.Logger, handler Bet) http.HandlerFunc {
 			return
 		}
 		builder.SendResponse(w, response)
-	}
+	})
 }
 
-func HandlePayout(logger *zap.Logger, handler Payout) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
+func HandlePayout(mux *mux.Router, logger *zap.Logger, handler Payout) {
+	mux.HandleFunc(_walletPayout, func(w http.ResponseWriter, r *http.Request) {
 		// handler read request & call func execute payout
 
 		var err error
@@ -139,7 +140,7 @@ func HandlePayout(logger *zap.Logger, handler Payout) http.HandlerFunc {
 			return
 		}
 		builder.SendResponse(w, response)
-	}
+	})
 }
 
 func readHeader(r *http.Request) *HookRequestHeader {
