@@ -65,12 +65,6 @@ func HandleGetWallet(mux *mux.Router, logger *zap.Logger, handler GetWallet) {
 			},
 		}
 		headerRequest := readHeader(r)
-		if err := builder.ToRequest(r.Body, request); err != nil {
-			logger.Error(err.Error(), zap.Error(err))
-			errorResponse.Error.Message = err.Error()
-			builder.SendResponse(w, errorResponse)
-			return
-		}
 		request.Header = headerRequest
 		response, err := handler(r.Context(), request)
 		if err != nil {
