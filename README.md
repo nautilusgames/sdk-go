@@ -1,4 +1,4 @@
-# Nautilus Game Go SDK
+# Nautilus Games Go SDK
 
 The `sdk-go` package provides a simple and efficient way to interact with our API during the integration. Below is a basic example of how to use the SDK to perform a common task.
 
