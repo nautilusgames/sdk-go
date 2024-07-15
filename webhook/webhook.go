@@ -2,12 +2,10 @@ package webhook
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 
-	"go.uber.org/zap"
-
 	"github.com/gorilla/mux"
+
 	"github.com/nautilusgames/sdk-go/builder"
 )
 
@@ -37,7 +35,7 @@ type (
 	Rollback  func(ctx context.Context, request *TransactionRequest) (*TransactionReply, error)
 )
 
-func HandleVerifyPlayer(mux *mux.Router, logger *zap.Logger, handler VerifyPlayer) {
+func HandleVerifyPlayer(mux *mux.Router, handler VerifyPlayer) {
 	mux.HandleFunc(_verifyPlayer, func(w http.ResponseWriter, r *http.Request) {
 		// handler read request & call func execute verifyPlayer
 
@@ -46,9 +44,6 @@ func HandleVerifyPlayer(mux *mux.Router, logger *zap.Logger, handler VerifyPlaye
 		request.Header = headerRequest
 		reply, err := handler(r.Context(), request)
 		if err != nil {
-			fmt.Printf("Route not found: %s %s\n", r.Method, r.URL)
-
-			logger.Error(err.Error(), zap.Error(err))
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
@@ -56,7 +51,7 @@ func HandleVerifyPlayer(mux *mux.Router, logger *zap.Logger, handler VerifyPlaye
 	})
 }
 
-func HandleGetWallet(mux *mux.Router, logger *zap.Logger, handler GetWallet) {
+func HandleGetWallet(mux *mux.Router, handler GetWallet) {
 	mux.HandleFunc(_walletGet, func(w http.ResponseWriter, r *http.Request) {
 		// handler read request & call func execute getWallet
 
@@ -70,7 +65,6 @@ func HandleGetWallet(mux *mux.Router, logger *zap.Logger, handler GetWallet) {
 		request.Header = headerRequest
 		reply, err := handler(r.Context(), request)
 		if err != nil {
-			logger.Error(err.Error(), zap.Error(err))
 			errorResponse.Error.Message = err.Error()
 			builder.SendReply(w, errorResponse)
 			return
@@ -79,7 +73,7 @@ func HandleGetWallet(mux *mux.Router, logger *zap.Logger, handler GetWallet) {
 	})
 }
 
-func HandleBet(mux *mux.Router, logger *zap.Logger, handler Bet) {
+func HandleBet(mux *mux.Router, handler Bet) {
 	mux.HandleFunc(_walletBet, func(w http.ResponseWriter, r *http.Request) {
 		// handler read request & call func execute bet
 
@@ -92,7 +86,6 @@ func HandleBet(mux *mux.Router, logger *zap.Logger, handler Bet) {
 		}
 		headerRequest := readHeader(r)
 		if err := builder.ToRequest(r.Body, request); err != nil {
-			logger.Error(err.Error(), zap.Error(err))
 			reply.Error.Message = err.Error()
 			builder.SendReply(w, reply)
 			return
@@ -100,7 +93,6 @@ func HandleBet(mux *mux.Router, logger *zap.Logger, handler Bet) {
 		request.Header = headerRequest
 		reply, err = handler(r.Context(), request)
 		if err != nil {
-			logger.Error(err.Error(), zap.Error(err))
 			reply.Error.Message = err.Error()
 			builder.SendReply(w, reply)
 			return
@@ -109,7 +101,7 @@ func HandleBet(mux *mux.Router, logger *zap.Logger, handler Bet) {
 	})
 }
 
-func HandlePayout(mux *mux.Router, logger *zap.Logger, handler Payout) {
+func HandlePayout(mux *mux.Router, handler Payout) {
 	mux.HandleFunc(_walletPayout, func(w http.ResponseWriter, r *http.Request) {
 		// handler read request & call func execute payout
 
@@ -122,7 +114,6 @@ func HandlePayout(mux *mux.Router, logger *zap.Logger, handler Payout) {
 		}
 		headerRequest := readHeader(r)
 		if err := builder.ToRequest(r.Body, request); err != nil {
-			logger.Error(err.Error(), zap.Error(err))
 			reply.Error.Message = err.Error()
 			builder.SendReply(w, reply)
 			return
@@ -130,7 +121,6 @@ func HandlePayout(mux *mux.Router, logger *zap.Logger, handler Payout) {
 		request.Header = headerRequest
 		reply, err = handler(r.Context(), request)
 		if err != nil {
-			logger.Error(err.Error(), zap.Error(err))
 			reply.Error.Message = err.Error()
 			builder.SendReply(w, reply)
 			return
@@ -139,7 +129,7 @@ func HandlePayout(mux *mux.Router, logger *zap.Logger, handler Payout) {
 	})
 }
 
-func HandleRefund(mux *mux.Router, logger *zap.Logger, handler Refund) {
+func HandleRefund(mux *mux.Router, handler Refund) {
 	mux.HandleFunc(_walletRefund, func(w http.ResponseWriter, r *http.Request) {
 		// handler read request & call func execute payout
 
@@ -152,7 +142,6 @@ func HandleRefund(mux *mux.Router, logger *zap.Logger, handler Refund) {
 		}
 		headerRequest := readHeader(r)
 		if err := builder.ToRequest(r.Body, request); err != nil {
-			logger.Error(err.Error(), zap.Error(err))
 			reply.Error.Message = err.Error()
 			builder.SendReply(w, reply)
 			return
@@ -160,7 +149,6 @@ func HandleRefund(mux *mux.Router, logger *zap.Logger, handler Refund) {
 		request.Header = headerRequest
 		reply, err = handler(r.Context(), request)
 		if err != nil {
-			logger.Error(err.Error(), zap.Error(err))
 			reply.Error.Message = err.Error()
 			builder.SendReply(w, reply)
 			return
@@ -169,7 +157,7 @@ func HandleRefund(mux *mux.Router, logger *zap.Logger, handler Refund) {
 	})
 }
 
-func HandleRollback(mux *mux.Router, logger *zap.Logger, handler Rollback) {
+func HandleRollback(mux *mux.Router, handler Rollback) {
 	mux.HandleFunc(_walletRollback, func(w http.ResponseWriter, r *http.Request) {
 		// handler read request & call func execute payout
 
@@ -182,7 +170,6 @@ func HandleRollback(mux *mux.Router, logger *zap.Logger, handler Rollback) {
 		}
 		headerRequest := readHeader(r)
 		if err := builder.ToRequest(r.Body, request); err != nil {
-			logger.Error(err.Error(), zap.Error(err))
 			reply.Error.Message = err.Error()
 			builder.SendReply(w, reply)
 			return
@@ -190,7 +177,6 @@ func HandleRollback(mux *mux.Router, logger *zap.Logger, handler Rollback) {
 		request.Header = headerRequest
 		reply, err = handler(r.Context(), request)
 		if err != nil {
-			logger.Error(err.Error(), zap.Error(err))
 			reply.Error.Message = err.Error()
 			builder.SendReply(w, reply)
 			return
