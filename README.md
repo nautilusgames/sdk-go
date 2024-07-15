@@ -7,13 +7,14 @@ package main
 
 import (
     "fmt"
-    "github.com/nautilusgames/sdk-go"
+
+    sgc "github.com/nautilusgames/sdk-go/client"
 )
 
 func main() {
 	ctx := context.TODO()
 	logger := zap.NewExample()
-	client := NewClient(&http.Client{}).
+	client := sgc.NewClient(&http.Client{}).
 		WithDomain("your-domain").
 		WithAPIKey("your-api-key").
 		WithTenantID("your-tenant-id")
