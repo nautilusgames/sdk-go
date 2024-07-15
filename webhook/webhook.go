@@ -2,12 +2,10 @@ package webhook
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 
-	"go.uber.org/zap"
-
 	"github.com/gorilla/mux"
+
 	"github.com/nautilusgames/sdk-go/builder"
 )
 
@@ -17,123 +15,173 @@ const (
 	_xTenantPlayerToken = "x-tenant-player-token"
 	_xGameID            = "x-game-id"
 
-	_verifyPlayer = "/player/verify"
-	_walletGet    = "/wallet/get"
-	_walletCreate = "/wallet/create"
-	_walletBet    = "/wallet/bet"
-	_walletPayout = "/wallet/payout"
-	_walletRefund = "/wallet/refund"
+	_verifyPlayer   = "/player/verify"
+	_walletGet      = "/wallet/get"
+	_walletBet      = "/wallet/bet"
+	_walletPayout   = "/wallet/payout"
+	_walletRefund   = "/wallet/refund"
+	_walletRollback = "/wallet/rollback"
 )
 
 type (
 	// player
-	VerifyPlayer func(ctx context.Context, request *VerifyPlayerRequest) (*VerifyPlayerResponse, error)
+	VerifyPlayer func(ctx context.Context, request *VerifyPlayerRequest) (*VerifyPlayerReply, error)
 
 	// wallet
-	GetWallet func(ctx context.Context, request *GetWalletRequest) (*GetWalletResponse, error)
-	Bet       func(ctx context.Context, request *BetRequest) (*WalletResponse, error)
-	Payout    func(ctx context.Context, request *PayoutRequest) (*WalletResponse, error)
+	GetWallet func(ctx context.Context, request *GetWalletRequest) (*GetWalletReply, error)
+	Bet       func(ctx context.Context, request *TransactionRequest) (*TransactionReply, error)
+	Payout    func(ctx context.Context, request *TransactionRequest) (*TransactionReply, error)
+	Refund    func(ctx context.Context, request *TransactionRequest) (*TransactionReply, error)
+	Rollback  func(ctx context.Context, request *TransactionRequest) (*TransactionReply, error)
 )
 
-func HandleVerifyPlayer(mux *mux.Router, logger *zap.Logger, handler VerifyPlayer) {
+func HandleVerifyPlayer(mux *mux.Router, handler VerifyPlayer) {
 	mux.HandleFunc(_verifyPlayer, func(w http.ResponseWriter, r *http.Request) {
 		// handler read request & call func execute verifyPlayer
 
 		request := &VerifyPlayerRequest{}
 		headerRequest := readHeader(r)
 		request.Header = headerRequest
-		response, err := handler(r.Context(), request)
+		reply, err := handler(r.Context(), request)
 		if err != nil {
-			fmt.Printf("Route not found: %s %s\n", r.Method, r.URL)
-
-			logger.Error(err.Error(), zap.Error(err))
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
-		builder.SendResponse(w, response)
+		builder.SendReply(w, reply)
 	})
 }
 
-func HandleGetWallet(mux *mux.Router, logger *zap.Logger, handler GetWallet) {
+func HandleGetWallet(mux *mux.Router, handler GetWallet) {
 	mux.HandleFunc(_walletGet, func(w http.ResponseWriter, r *http.Request) {
 		// handler read request & call func execute getWallet
 
 		request := &GetWalletRequest{}
-		errorResponse := &GetWalletResponse{
+		errorResponse := &GetWalletReply{
 			Error: &Error{
 				Code: http.StatusInternalServerError,
 			},
 		}
 		headerRequest := readHeader(r)
 		request.Header = headerRequest
-		response, err := handler(r.Context(), request)
+		reply, err := handler(r.Context(), request)
 		if err != nil {
-			logger.Error(err.Error(), zap.Error(err))
 			errorResponse.Error.Message = err.Error()
-			builder.SendResponse(w, errorResponse)
+			builder.SendReply(w, errorResponse)
 			return
 		}
-		builder.SendResponse(w, response)
+		builder.SendReply(w, reply)
 	})
 }
 
-func HandleBet(mux *mux.Router, logger *zap.Logger, handler Bet) {
+func HandleBet(mux *mux.Router, handler Bet) {
 	mux.HandleFunc(_walletBet, func(w http.ResponseWriter, r *http.Request) {
 		// handler read request & call func execute bet
 
 		var err error
-		request := &BetRequest{}
-		response := &WalletResponse{
+		request := &TransactionRequest{}
+		reply := &TransactionReply{
 			Error: &Error{
 				Code: http.StatusInternalServerError,
 			},
 		}
 		headerRequest := readHeader(r)
 		if err := builder.ToRequest(r.Body, request); err != nil {
-			logger.Error(err.Error(), zap.Error(err))
-			response.Error.Message = err.Error()
-			builder.SendResponse(w, response)
+			reply.Error.Message = err.Error()
+			builder.SendReply(w, reply)
 			return
 		}
 		request.Header = headerRequest
-		response, err = handler(r.Context(), request)
+		reply, err = handler(r.Context(), request)
 		if err != nil {
-			logger.Error(err.Error(), zap.Error(err))
-			response.Error.Message = err.Error()
-			builder.SendResponse(w, response)
+			reply.Error.Message = err.Error()
+			builder.SendReply(w, reply)
 			return
 		}
-		builder.SendResponse(w, response)
+		builder.SendReply(w, reply)
 	})
 }
 
-func HandlePayout(mux *mux.Router, logger *zap.Logger, handler Payout) {
+func HandlePayout(mux *mux.Router, handler Payout) {
 	mux.HandleFunc(_walletPayout, func(w http.ResponseWriter, r *http.Request) {
 		// handler read request & call func execute payout
 
 		var err error
-		request := &PayoutRequest{}
-		response := &WalletResponse{
+		request := &TransactionRequest{}
+		reply := &TransactionReply{
 			Error: &Error{
 				Code: http.StatusInternalServerError,
 			},
 		}
 		headerRequest := readHeader(r)
 		if err := builder.ToRequest(r.Body, request); err != nil {
-			logger.Error(err.Error(), zap.Error(err))
-			response.Error.Message = err.Error()
-			builder.SendResponse(w, response)
+			reply.Error.Message = err.Error()
+			builder.SendReply(w, reply)
 			return
 		}
 		request.Header = headerRequest
-		response, err = handler(r.Context(), request)
+		reply, err = handler(r.Context(), request)
 		if err != nil {
-			logger.Error(err.Error(), zap.Error(err))
-			response.Error.Message = err.Error()
-			builder.SendResponse(w, response)
+			reply.Error.Message = err.Error()
+			builder.SendReply(w, reply)
 			return
 		}
-		builder.SendResponse(w, response)
+		builder.SendReply(w, reply)
+	})
+}
+
+func HandleRefund(mux *mux.Router, handler Refund) {
+	mux.HandleFunc(_walletRefund, func(w http.ResponseWriter, r *http.Request) {
+		// handler read request & call func execute payout
+
+		var err error
+		request := &TransactionRequest{}
+		reply := &TransactionReply{
+			Error: &Error{
+				Code: http.StatusInternalServerError,
+			},
+		}
+		headerRequest := readHeader(r)
+		if err := builder.ToRequest(r.Body, request); err != nil {
+			reply.Error.Message = err.Error()
+			builder.SendReply(w, reply)
+			return
+		}
+		request.Header = headerRequest
+		reply, err = handler(r.Context(), request)
+		if err != nil {
+			reply.Error.Message = err.Error()
+			builder.SendReply(w, reply)
+			return
+		}
+		builder.SendReply(w, reply)
+	})
+}
+
+func HandleRollback(mux *mux.Router, handler Rollback) {
+	mux.HandleFunc(_walletRollback, func(w http.ResponseWriter, r *http.Request) {
+		// handler read request & call func execute payout
+
+		var err error
+		request := &TransactionRequest{}
+		reply := &TransactionReply{
+			Error: &Error{
+				Code: http.StatusInternalServerError,
+			},
+		}
+		headerRequest := readHeader(r)
+		if err := builder.ToRequest(r.Body, request); err != nil {
+			reply.Error.Message = err.Error()
+			builder.SendReply(w, reply)
+			return
+		}
+		request.Header = headerRequest
+		reply, err = handler(r.Context(), request)
+		if err != nil {
+			reply.Error.Message = err.Error()
+			builder.SendReply(w, reply)
+			return
+		}
+		builder.SendReply(w, reply)
 	})
 }
 

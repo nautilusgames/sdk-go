@@ -28,7 +28,7 @@ func (c *ClientWrapper) Send(ctx context.Context, endpoint string, header map[st
 	for k, v := range header {
 		req.Header.Add(k, v)
 	}
-	response, err := builder.ToResponse(c.HTTPClient.Do(req))
+	response, err := builder.ToReply(c.HTTPClient.Do(req))
 	if err != nil {
 		return err
 	}

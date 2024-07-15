@@ -12,7 +12,7 @@ const (
 	_contentTypeVal = "application/json; charset=UTF-8"
 )
 
-func SendResponse(writer http.ResponseWriter, res interface{}) {
+func SendReply(writer http.ResponseWriter, res interface{}) {
 	writer.Header().Set(_contentType, _contentTypeVal)
 	writer.WriteHeader(http.StatusOK)
 
@@ -26,7 +26,7 @@ func SendResponse(writer http.ResponseWriter, res interface{}) {
 	}
 }
 
-func ToResponse(resp *http.Response, err error) ([]byte, error) {
+func ToReply(resp *http.Response, err error) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
