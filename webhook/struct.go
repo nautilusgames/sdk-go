@@ -27,7 +27,8 @@ type PlayerInfo struct {
 }
 
 type GetWalletRequest struct {
-	Header *HookRequestHeader `json:"header"`
+	Currency string             `json:"currency"`
+	Header   *HookRequestHeader `json:"header"`
 }
 
 type GetWalletReply struct {
@@ -49,6 +50,7 @@ type TransactionReply struct {
 
 type TransactionData struct {
 	Id         int64   `json:"id"`
+	Currency   string  `json:"currency"`
 	SessionId  int64   `json:"session_id"`
 	Amount     float64 `json:"amount"`
 	NewBalance float64 `json:"new_balance"`
