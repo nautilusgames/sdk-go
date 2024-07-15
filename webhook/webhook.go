@@ -44,7 +44,7 @@ func HandleVerifyPlayer(mux *mux.Router, logger *zap.Logger, handler VerifyPlaye
 		request := &VerifyPlayerRequest{}
 		headerRequest := readHeader(r)
 		request.Header = headerRequest
-		response, err := handler(r.Context(), request)
+		reply, err := handler(r.Context(), request)
 		if err != nil {
 			fmt.Printf("Route not found: %s %s\n", r.Method, r.URL)
 
@@ -52,7 +52,7 @@ func HandleVerifyPlayer(mux *mux.Router, logger *zap.Logger, handler VerifyPlaye
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
-		builder.SendResponse(w, response)
+		builder.SendResponse(w, reply)
 	})
 }
 
@@ -68,14 +68,14 @@ func HandleGetWallet(mux *mux.Router, logger *zap.Logger, handler GetWallet) {
 		}
 		headerRequest := readHeader(r)
 		request.Header = headerRequest
-		response, err := handler(r.Context(), request)
+		reply, err := handler(r.Context(), request)
 		if err != nil {
 			logger.Error(err.Error(), zap.Error(err))
 			errorResponse.Error.Message = err.Error()
 			builder.SendResponse(w, errorResponse)
 			return
 		}
-		builder.SendResponse(w, response)
+		builder.SendResponse(w, reply)
 	})
 }
 
@@ -85,7 +85,7 @@ func HandleBet(mux *mux.Router, logger *zap.Logger, handler Bet) {
 
 		var err error
 		request := &TransactionRequest{}
-		response := &TransactionReply{
+		reply := &TransactionReply{
 			Error: &Error{
 				Code: http.StatusInternalServerError,
 			},
@@ -93,19 +93,19 @@ func HandleBet(mux *mux.Router, logger *zap.Logger, handler Bet) {
 		headerRequest := readHeader(r)
 		if err := builder.ToRequest(r.Body, request); err != nil {
 			logger.Error(err.Error(), zap.Error(err))
-			response.Error.Message = err.Error()
-			builder.SendResponse(w, response)
+			reply.Error.Message = err.Error()
+			builder.SendResponse(w, reply)
 			return
 		}
 		request.Header = headerRequest
-		response, err = handler(r.Context(), request)
+		reply, err = handler(r.Context(), request)
 		if err != nil {
 			logger.Error(err.Error(), zap.Error(err))
-			response.Error.Message = err.Error()
-			builder.SendResponse(w, response)
+			reply.Error.Message = err.Error()
+			builder.SendResponse(w, reply)
 			return
 		}
-		builder.SendResponse(w, response)
+		builder.SendResponse(w, reply)
 	})
 }
 
@@ -115,7 +115,7 @@ func HandlePayout(mux *mux.Router, logger *zap.Logger, handler Payout) {
 
 		var err error
 		request := &TransactionRequest{}
-		response := &TransactionReply{
+		reply := &TransactionReply{
 			Error: &Error{
 				Code: http.StatusInternalServerError,
 			},
@@ -123,19 +123,19 @@ func HandlePayout(mux *mux.Router, logger *zap.Logger, handler Payout) {
 		headerRequest := readHeader(r)
 		if err := builder.ToRequest(r.Body, request); err != nil {
 			logger.Error(err.Error(), zap.Error(err))
-			response.Error.Message = err.Error()
-			builder.SendResponse(w, response)
+			reply.Error.Message = err.Error()
+			builder.SendResponse(w, reply)
 			return
 		}
 		request.Header = headerRequest
-		response, err = handler(r.Context(), request)
+		reply, err = handler(r.Context(), request)
 		if err != nil {
 			logger.Error(err.Error(), zap.Error(err))
-			response.Error.Message = err.Error()
-			builder.SendResponse(w, response)
+			reply.Error.Message = err.Error()
+			builder.SendResponse(w, reply)
 			return
 		}
-		builder.SendResponse(w, response)
+		builder.SendResponse(w, reply)
 	})
 }
 
@@ -145,7 +145,7 @@ func HandleRefund(mux *mux.Router, logger *zap.Logger, handler Refund) {
 
 		var err error
 		request := &TransactionRequest{}
-		response := &TransactionReply{
+		reply := &TransactionReply{
 			Error: &Error{
 				Code: http.StatusInternalServerError,
 			},
@@ -153,19 +153,19 @@ func HandleRefund(mux *mux.Router, logger *zap.Logger, handler Refund) {
 		headerRequest := readHeader(r)
 		if err := builder.ToRequest(r.Body, request); err != nil {
 			logger.Error(err.Error(), zap.Error(err))
-			response.Error.Message = err.Error()
-			builder.SendResponse(w, response)
+			reply.Error.Message = err.Error()
+			builder.SendResponse(w, reply)
 			return
 		}
 		request.Header = headerRequest
-		response, err = handler(r.Context(), request)
+		reply, err = handler(r.Context(), request)
 		if err != nil {
 			logger.Error(err.Error(), zap.Error(err))
-			response.Error.Message = err.Error()
-			builder.SendResponse(w, response)
+			reply.Error.Message = err.Error()
+			builder.SendResponse(w, reply)
 			return
 		}
-		builder.SendResponse(w, response)
+		builder.SendResponse(w, reply)
 	})
 }
 
@@ -175,7 +175,7 @@ func HandleRollback(mux *mux.Router, logger *zap.Logger, handler Rollback) {
 
 		var err error
 		request := &TransactionRequest{}
-		response := &TransactionReply{
+		reply := &TransactionReply{
 			Error: &Error{
 				Code: http.StatusInternalServerError,
 			},
@@ -183,19 +183,19 @@ func HandleRollback(mux *mux.Router, logger *zap.Logger, handler Rollback) {
 		headerRequest := readHeader(r)
 		if err := builder.ToRequest(r.Body, request); err != nil {
 			logger.Error(err.Error(), zap.Error(err))
-			response.Error.Message = err.Error()
-			builder.SendResponse(w, response)
+			reply.Error.Message = err.Error()
+			builder.SendResponse(w, reply)
 			return
 		}
 		request.Header = headerRequest
-		response, err = handler(r.Context(), request)
+		reply, err = handler(r.Context(), request)
 		if err != nil {
 			logger.Error(err.Error(), zap.Error(err))
-			response.Error.Message = err.Error()
-			builder.SendResponse(w, response)
+			reply.Error.Message = err.Error()
+			builder.SendResponse(w, reply)
 			return
 		}
-		builder.SendResponse(w, response)
+		builder.SendResponse(w, reply)
 	})
 }
 
