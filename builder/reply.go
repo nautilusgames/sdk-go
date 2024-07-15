@@ -26,7 +26,7 @@ func SendReply(writer http.ResponseWriter, res interface{}) {
 	}
 }
 
-func ToResponse(resp *http.Response, err error) ([]byte, error) {
+func ToReply(resp *http.Response, err error) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
