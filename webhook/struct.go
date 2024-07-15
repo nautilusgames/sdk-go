@@ -36,6 +36,7 @@ type GetWalletReply struct {
 }
 
 type TransactionRequest struct {
+	Currency  string             `json:"currency"`
 	SessionId int64              `json:"session_id"`
 	Amount    float64            `json:"amount"`
 	Header    *HookRequestHeader `json:"header,omitempty"`
@@ -48,6 +49,7 @@ type TransactionReply struct {
 
 type TransactionData struct {
 	Id         int64   `json:"id"`
+	Currency   string  `json:"currency"`
 	SessionId  int64   `json:"session_id"`
 	Amount     float64 `json:"amount"`
 	NewBalance float64 `json:"new_balance"`
@@ -55,6 +57,7 @@ type TransactionData struct {
 }
 
 type PlayerWallet struct {
+	Currency string  `json:"currency"`
 	Balance  float64 `json:"balance"`
 	LastTxId int64   `json:"last_tx_id"`
 }
