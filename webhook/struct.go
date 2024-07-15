@@ -16,7 +16,7 @@ type VerifyPlayerRequest struct {
 	Header *HookRequestHeader `json:"header"`
 }
 
-type VerifyPlayerResponse struct {
+type VerifyPlayerReply struct {
 	Data *PlayerInfo `json:"data"`
 }
 
@@ -30,37 +30,31 @@ type GetWalletRequest struct {
 	Header *HookRequestHeader `json:"header"`
 }
 
-type GetWalletResponse struct {
+type GetWalletReply struct {
 	Data  *PlayerWallet `json:"data"`
 	Error *Error        `json:"error"`
 }
 
-type BetRequest struct {
+type TransactionRequest struct {
 	SessionId int64              `json:"session_id"`
-	Amount    int64              `json:"amount"`
+	Amount    float64            `json:"amount"`
 	Header    *HookRequestHeader `json:"header,omitempty"`
 }
 
-type PayoutRequest struct {
-	SessionId int64              `json:"session_id"`
-	Amount    int64              `json:"amount"`
-	Header    *HookRequestHeader `json:"header,omitempty"`
+type TransactionReply struct {
+	Data  *TransactionData `json:"data"`
+	Error *Error           `json:"error"`
 }
 
-type WalletResponse struct {
-	Data  *WalletTransaction `json:"data"`
-	Error *Error             `json:"error"`
-}
-
-type WalletTransaction struct {
-	Id         int64 `json:"id"`
-	SessionId  int64 `json:"session_id"`
-	Amount     int64 `json:"amount"`
-	NewBalance int64 `json:"new_balance"`
-	CreatedAt  int64 `json:"created_at"`
+type TransactionData struct {
+	Id         int64   `json:"id"`
+	SessionId  int64   `json:"session_id"`
+	Amount     float64 `json:"amount"`
+	NewBalance float64 `json:"new_balance"`
+	CreatedAt  int64   `json:"created_at"`
 }
 
 type PlayerWallet struct {
-	Balance  int64 `json:"balance"`
-	LastTxId int64 `json:"last_tx_id"`
+	Balance  float64 `json:"balance"`
+	LastTxId int64   `json:"last_tx_id"`
 }
