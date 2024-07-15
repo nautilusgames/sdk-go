@@ -1,6 +1,7 @@
 package client
 
 import (
+	"fmt"
 	"net/http"
 
 	sdkhttp "github.com/nautilusgames/sdk-go/http"
@@ -21,6 +22,8 @@ type Client struct {
 	domain   string
 	tenantID string
 	apiKey   string
+	// tenantToken is optional, you can call API with token or apiKey
+	tenantToken string
 }
 
 func NewClient(client *http.Client) *Client {
@@ -47,13 +50,20 @@ func (c *Client) WithDomain(domain string) *Client {
 	return c
 }
 
+// WithDomain is a function that helps add the Domain value to the client struct for API calls.
+func (c *Client) WithTenantToken(tenantToken string) *Client {
+	c.tenantToken = tenantToken
+	return c
+}
+
 // BuildHeader This function supports building the header to convey information in the API when making a call.
-func (c *Client) BuildHeader(token string) map[string]string {
+func (c *Client) BuildHeader() map[string]string {
 	mHeader := make(map[string]string)
-	mHeader[xApiKey] = c.apiKey
 	mHeader[xTenantId] = c.tenantID
-	if len(token) > 0 {
-		mHeader[authorization] = "Bearer " + token
+	if len(c.tenantToken) > 0 {
+		mHeader[authorization] = fmt.Sprintf("Bearer %s", c.tenantToken)
+	} else if len(c.apiKey) > 0 {
+		mHeader[xApiKey] = c.apiKey
 	}
 	return mHeader
 }
