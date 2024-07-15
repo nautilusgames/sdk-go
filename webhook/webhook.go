@@ -52,7 +52,7 @@ func HandleVerifyPlayer(mux *mux.Router, logger *zap.Logger, handler VerifyPlaye
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
-		builder.SendResponse(w, reply)
+		builder.SendReply(w, reply)
 	})
 }
 
@@ -72,10 +72,10 @@ func HandleGetWallet(mux *mux.Router, logger *zap.Logger, handler GetWallet) {
 		if err != nil {
 			logger.Error(err.Error(), zap.Error(err))
 			errorResponse.Error.Message = err.Error()
-			builder.SendResponse(w, errorResponse)
+			builder.SendReply(w, errorResponse)
 			return
 		}
-		builder.SendResponse(w, reply)
+		builder.SendReply(w, reply)
 	})
 }
 
@@ -94,7 +94,7 @@ func HandleBet(mux *mux.Router, logger *zap.Logger, handler Bet) {
 		if err := builder.ToRequest(r.Body, request); err != nil {
 			logger.Error(err.Error(), zap.Error(err))
 			reply.Error.Message = err.Error()
-			builder.SendResponse(w, reply)
+			builder.SendReply(w, reply)
 			return
 		}
 		request.Header = headerRequest
@@ -102,10 +102,10 @@ func HandleBet(mux *mux.Router, logger *zap.Logger, handler Bet) {
 		if err != nil {
 			logger.Error(err.Error(), zap.Error(err))
 			reply.Error.Message = err.Error()
-			builder.SendResponse(w, reply)
+			builder.SendReply(w, reply)
 			return
 		}
-		builder.SendResponse(w, reply)
+		builder.SendReply(w, reply)
 	})
 }
 
@@ -124,7 +124,7 @@ func HandlePayout(mux *mux.Router, logger *zap.Logger, handler Payout) {
 		if err := builder.ToRequest(r.Body, request); err != nil {
 			logger.Error(err.Error(), zap.Error(err))
 			reply.Error.Message = err.Error()
-			builder.SendResponse(w, reply)
+			builder.SendReply(w, reply)
 			return
 		}
 		request.Header = headerRequest
@@ -132,10 +132,10 @@ func HandlePayout(mux *mux.Router, logger *zap.Logger, handler Payout) {
 		if err != nil {
 			logger.Error(err.Error(), zap.Error(err))
 			reply.Error.Message = err.Error()
-			builder.SendResponse(w, reply)
+			builder.SendReply(w, reply)
 			return
 		}
-		builder.SendResponse(w, reply)
+		builder.SendReply(w, reply)
 	})
 }
 
@@ -154,7 +154,7 @@ func HandleRefund(mux *mux.Router, logger *zap.Logger, handler Refund) {
 		if err := builder.ToRequest(r.Body, request); err != nil {
 			logger.Error(err.Error(), zap.Error(err))
 			reply.Error.Message = err.Error()
-			builder.SendResponse(w, reply)
+			builder.SendReply(w, reply)
 			return
 		}
 		request.Header = headerRequest
@@ -162,10 +162,10 @@ func HandleRefund(mux *mux.Router, logger *zap.Logger, handler Refund) {
 		if err != nil {
 			logger.Error(err.Error(), zap.Error(err))
 			reply.Error.Message = err.Error()
-			builder.SendResponse(w, reply)
+			builder.SendReply(w, reply)
 			return
 		}
-		builder.SendResponse(w, reply)
+		builder.SendReply(w, reply)
 	})
 }
 
@@ -184,7 +184,7 @@ func HandleRollback(mux *mux.Router, logger *zap.Logger, handler Rollback) {
 		if err := builder.ToRequest(r.Body, request); err != nil {
 			logger.Error(err.Error(), zap.Error(err))
 			reply.Error.Message = err.Error()
-			builder.SendResponse(w, reply)
+			builder.SendReply(w, reply)
 			return
 		}
 		request.Header = headerRequest
@@ -192,10 +192,10 @@ func HandleRollback(mux *mux.Router, logger *zap.Logger, handler Rollback) {
 		if err != nil {
 			logger.Error(err.Error(), zap.Error(err))
 			reply.Error.Message = err.Error()
-			builder.SendResponse(w, reply)
+			builder.SendReply(w, reply)
 			return
 		}
-		builder.SendResponse(w, reply)
+		builder.SendReply(w, reply)
 	})
 }
 
