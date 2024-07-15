@@ -27,8 +27,7 @@ type PlayerInfo struct {
 }
 
 type GetWalletRequest struct {
-	Currency string             `json:"currency"`
-	Header   *HookRequestHeader `json:"header"`
+	Header *HookRequestHeader `json:"header"`
 }
 
 type GetWalletReply struct {
