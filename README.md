@@ -18,7 +18,7 @@ func main() {
 		WithAPIKey("your-api-key").
 		WithTenantID("your-tenant-id")
 
-	// ListGames API support get list game follow token from API Key
+	// Get list games from N11s with your API Key
 	games, err := client.ListGames(ctx, &ListGamesRequest{
 		Page:     1,
 		PageSize: 10,
@@ -27,7 +27,6 @@ func main() {
 		logger.Error("list games failed", zap.Error(err))
 		return
 	}
-
 	fmt.Println(games)
 }
 ```
