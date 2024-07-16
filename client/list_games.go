@@ -10,13 +10,13 @@ import (
 
 // ListGames API support get list game follow token from API GetToken
 // params is pagination with page & page_size
-func (s *Client) ListGames(ctx context.Context, request *ListGamesRequest, token string) (*GameResponse, error) {
+func (s *Client) ListGames(ctx context.Context, request *ListGamesRequest) (*GameResponse, error) {
 	var resp *GameResponse
 	url, err := builder.StructToURLValues(fmt.Sprintf("%s%s", s.domain, EndpointListGames), request)
 	if err != nil {
 		return nil, err
 	}
-	err = s.client.Send(ctx, url.String(), s.BuildHeader(token), "", http.MethodGet, &resp)
+	err = s.client.Send(ctx, url.String(), s.BuildHeader(), "", http.MethodGet, &resp)
 	if err != nil {
 		return nil, err
 	}
