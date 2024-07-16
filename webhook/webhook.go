@@ -2,6 +2,7 @@ package webhook
 
 import (
 	"context"
+	"errors"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -44,7 +45,8 @@ func HandleVerifyPlayer(mux *mux.Router, handler VerifyPlayer) {
 		request.Header = headerRequest
 		reply, err := handler(r.Context(), request)
 		if err != nil {
-			if httpErr, ok := err.(*HTTPError); ok {
+			var httpErr *HTTPError
+			if errors.As(err, &httpErr) {
 				http.Error(w, httpErr.Message, httpErr.StatusCode)
 			} else {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -64,7 +66,8 @@ func HandleGetWallet(mux *mux.Router, handler GetWallet) {
 		request.Header = headerRequest
 		reply, err := handler(r.Context(), request)
 		if err != nil {
-			if httpErr, ok := err.(*HTTPError); ok {
+			var httpErr *HTTPError
+			if errors.As(err, &httpErr) {
 				http.Error(w, httpErr.Message, httpErr.StatusCode)
 			} else {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -88,7 +91,8 @@ func HandleBet(mux *mux.Router, handler Bet) {
 		request.Header = headerRequest
 		reply, err := handler(r.Context(), request)
 		if err != nil {
-			if httpErr, ok := err.(*HTTPError); ok {
+			var httpErr *HTTPError
+			if errors.As(err, &httpErr) {
 				http.Error(w, httpErr.Message, httpErr.StatusCode)
 			} else {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -112,7 +116,8 @@ func HandlePayout(mux *mux.Router, handler Payout) {
 		request.Header = headerRequest
 		reply, err := handler(r.Context(), request)
 		if err != nil {
-			if httpErr, ok := err.(*HTTPError); ok {
+			var httpErr *HTTPError
+			if errors.As(err, &httpErr) {
 				http.Error(w, httpErr.Message, httpErr.StatusCode)
 			} else {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -136,7 +141,8 @@ func HandleRefund(mux *mux.Router, handler Refund) {
 		request.Header = headerRequest
 		reply, err := handler(r.Context(), request)
 		if err != nil {
-			if httpErr, ok := err.(*HTTPError); ok {
+			var httpErr *HTTPError
+			if errors.As(err, &httpErr) {
 				http.Error(w, httpErr.Message, httpErr.StatusCode)
 			} else {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -160,7 +166,8 @@ func HandleRollback(mux *mux.Router, handler Rollback) {
 		request.Header = headerRequest
 		reply, err := handler(r.Context(), request)
 		if err != nil {
-			if httpErr, ok := err.(*HTTPError); ok {
+			var httpErr *HTTPError
+			if errors.As(err, &httpErr) {
 				http.Error(w, httpErr.Message, httpErr.StatusCode)
 			} else {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
