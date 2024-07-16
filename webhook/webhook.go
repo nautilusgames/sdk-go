@@ -9,11 +9,11 @@ import (
 	"github.com/nautilusgames/sdk-go/builder"
 )
 
-const (
-	_xApiKey            = "x-api-key"
-	_xTenantID          = "x-tenant-id"
-	_xTenantPlayerToken = "x-tenant-player-token"
-	_xGameID            = "x-game-id"
+var (
+	_xApiKey            = []string{"x-api-key", "x-tenant-secret", "t-secret"}
+	_xTenantID          = []string{"x-tenant-id", "t-id"}
+	_xTenantPlayerToken = []string{"x-tenant-player-token", "x-tenant-token", "t-token"}
+	_xGameID            = []string{"x-game-id", "g-id"}
 
 	_verifyPlayer   = "/player/verify"
 	_walletGet      = "/wallet/get"
@@ -44,7 +44,11 @@ func HandleVerifyPlayer(mux *mux.Router, handler VerifyPlayer) {
 		request.Header = headerRequest
 		reply, err := handler(r.Context(), request)
 		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
+			if httpErr, ok := err.(*HTTPError); ok {
+				http.Error(w, httpErr.Message, httpErr.StatusCode)
+			} else {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
 			return
 		}
 		builder.SendReply(w, reply)
@@ -56,17 +60,15 @@ func HandleGetWallet(mux *mux.Router, handler GetWallet) {
 		// handler read request & call func execute getWallet
 
 		request := &GetWalletRequest{}
-		errorResponse := &GetWalletReply{
-			Error: &Error{
-				Code: http.StatusInternalServerError,
-			},
-		}
 		headerRequest := readHeader(r)
 		request.Header = headerRequest
 		reply, err := handler(r.Context(), request)
 		if err != nil {
-			errorResponse.Error.Message = err.Error()
-			builder.SendReply(w, errorResponse)
+			if httpErr, ok := err.(*HTTPError); ok {
+				http.Error(w, httpErr.Message, httpErr.StatusCode)
+			} else {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
 			return
 		}
 		builder.SendReply(w, reply)
@@ -77,24 +79,20 @@ func HandleBet(mux *mux.Router, handler Bet) {
 	mux.HandleFunc(_walletBet, func(w http.ResponseWriter, r *http.Request) {
 		// handler read request & call func execute bet
 
-		var err error
 		request := &TransactionRequest{}
-		reply := &TransactionReply{
-			Error: &Error{
-				Code: http.StatusInternalServerError,
-			},
-		}
 		headerRequest := readHeader(r)
 		if err := builder.ToRequest(r.Body, request); err != nil {
-			reply.Error.Message = err.Error()
-			builder.SendReply(w, reply)
+			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 		request.Header = headerRequest
-		reply, err = handler(r.Context(), request)
+		reply, err := handler(r.Context(), request)
 		if err != nil {
-			reply.Error.Message = err.Error()
-			builder.SendReply(w, reply)
+			if httpErr, ok := err.(*HTTPError); ok {
+				http.Error(w, httpErr.Message, httpErr.StatusCode)
+			} else {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
 			return
 		}
 		builder.SendReply(w, reply)
@@ -105,24 +103,20 @@ func HandlePayout(mux *mux.Router, handler Payout) {
 	mux.HandleFunc(_walletPayout, func(w http.ResponseWriter, r *http.Request) {
 		// handler read request & call func execute payout
 
-		var err error
 		request := &TransactionRequest{}
-		reply := &TransactionReply{
-			Error: &Error{
-				Code: http.StatusInternalServerError,
-			},
-		}
 		headerRequest := readHeader(r)
 		if err := builder.ToRequest(r.Body, request); err != nil {
-			reply.Error.Message = err.Error()
-			builder.SendReply(w, reply)
+			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 		request.Header = headerRequest
-		reply, err = handler(r.Context(), request)
+		reply, err := handler(r.Context(), request)
 		if err != nil {
-			reply.Error.Message = err.Error()
-			builder.SendReply(w, reply)
+			if httpErr, ok := err.(*HTTPError); ok {
+				http.Error(w, httpErr.Message, httpErr.StatusCode)
+			} else {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
 			return
 		}
 		builder.SendReply(w, reply)
@@ -133,24 +127,20 @@ func HandleRefund(mux *mux.Router, handler Refund) {
 	mux.HandleFunc(_walletRefund, func(w http.ResponseWriter, r *http.Request) {
 		// handler read request & call func execute payout
 
-		var err error
 		request := &TransactionRequest{}
-		reply := &TransactionReply{
-			Error: &Error{
-				Code: http.StatusInternalServerError,
-			},
-		}
 		headerRequest := readHeader(r)
 		if err := builder.ToRequest(r.Body, request); err != nil {
-			reply.Error.Message = err.Error()
-			builder.SendReply(w, reply)
+			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 		request.Header = headerRequest
-		reply, err = handler(r.Context(), request)
+		reply, err := handler(r.Context(), request)
 		if err != nil {
-			reply.Error.Message = err.Error()
-			builder.SendReply(w, reply)
+			if httpErr, ok := err.(*HTTPError); ok {
+				http.Error(w, httpErr.Message, httpErr.StatusCode)
+			} else {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
 			return
 		}
 		builder.SendReply(w, reply)
@@ -161,24 +151,20 @@ func HandleRollback(mux *mux.Router, handler Rollback) {
 	mux.HandleFunc(_walletRollback, func(w http.ResponseWriter, r *http.Request) {
 		// handler read request & call func execute payout
 
-		var err error
 		request := &TransactionRequest{}
-		reply := &TransactionReply{
-			Error: &Error{
-				Code: http.StatusInternalServerError,
-			},
-		}
 		headerRequest := readHeader(r)
 		if err := builder.ToRequest(r.Body, request); err != nil {
-			reply.Error.Message = err.Error()
-			builder.SendReply(w, reply)
+			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 		request.Header = headerRequest
-		reply, err = handler(r.Context(), request)
+		reply, err := handler(r.Context(), request)
 		if err != nil {
-			reply.Error.Message = err.Error()
-			builder.SendReply(w, reply)
+			if httpErr, ok := err.(*HTTPError); ok {
+				http.Error(w, httpErr.Message, httpErr.StatusCode)
+			} else {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
 			return
 		}
 		builder.SendReply(w, reply)
@@ -187,9 +173,20 @@ func HandleRollback(mux *mux.Router, handler Rollback) {
 
 func readHeader(r *http.Request) *HookRequestHeader {
 	header := &HookRequestHeader{}
-	header.XApiKey = r.Header.Get(_xApiKey)
-	header.XTenantId = r.Header.Get(_xTenantID)
-	header.XTenantPlayerToken = r.Header.Get(_xTenantPlayerToken)
-	header.XGameId = r.Header.Get(_xGameID)
+	header.XApiKey = extractHeader(r, _xApiKey...)
+	header.XTenantId = extractHeader(r, _xTenantID...)
+	header.XTenantPlayerToken = extractHeader(r, _xTenantPlayerToken...)
+	header.XGameId = extractHeader(r, _xGameID...)
 	return header
+}
+
+func extractHeader(r *http.Request, names ...string) string {
+	for _, name := range names {
+		value := r.Header.Get(name)
+		if len(value) > 0 {
+			return value
+		}
+	}
+
+	return ""
 }
