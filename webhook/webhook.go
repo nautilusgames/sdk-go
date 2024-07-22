@@ -11,6 +11,7 @@ import (
 )
 
 var (
+	// For those header the first handle is the main one, others are for legacy support
 	_xApiKey            = []string{"x-api-key", "x-tenant-secret", "t-secret"}
 	_xTenantID          = []string{"x-tenant-id", "t-id"}
 	_xTenantPlayerToken = []string{"x-tenant-player-token", "x-tenant-token", "t-token"}
