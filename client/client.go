@@ -5,13 +5,10 @@ import (
 	"net/http"
 
 	sdkhttp "github.com/nautilusgames/sdk-go/http"
+	"github.com/nautilusgames/sdk-go/webhook"
 )
 
 const (
-	authorization = "Authorization"
-	xApiKey       = "x-api-key"
-	xTenantId     = "x-tenant-id"
-
 	// Endpoint APIs
 	EndpointGetToken  = "/api/hydra/v1/token"
 	EndpointListGames = "/api/gnome/v1/games"
@@ -59,11 +56,11 @@ func (c *Client) WithTenantToken(tenantToken string) *Client {
 // BuildHeader This function supports building the header to convey information in the API when making a call.
 func (c *Client) BuildHeader() map[string]string {
 	mHeader := make(map[string]string)
-	mHeader[xTenantId] = c.tenantID
+	mHeader[webhook.XTenantId] = c.tenantID
 	if len(c.tenantToken) > 0 {
-		mHeader[authorization] = fmt.Sprintf("Bearer %s", c.tenantToken)
+		mHeader[webhook.Authorization] = fmt.Sprintf("Bearer %s", c.tenantToken)
 	} else if len(c.apiKey) > 0 {
-		mHeader[xApiKey] = c.apiKey
+		mHeader[webhook.XApiKey] = c.apiKey
 	}
 	return mHeader
 }

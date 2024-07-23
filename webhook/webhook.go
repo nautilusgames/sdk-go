@@ -10,12 +10,15 @@ import (
 	"github.com/nautilusgames/sdk-go/builder"
 )
 
-var (
-	_xApiKey            = "x-api-key"
-	_xTenantID          = "x-tenant-id"
-	_xTenantPlayerToken = "x-tenant-player-token"
-	_xGameID            = "x-game-id"
+const (
+	Authorization      = "Authorization"
+	XApiKey            = "x-api-key"
+	XTenantId          = "x-tenant-id"
+	XTenantPlayerToken = "x-tenant-player-token"
+	XGameId            = "x-game-id"
+)
 
+const (
 	_verifyPlayer   = "/player/verify"
 	_walletGet      = "/wallet/get"
 	_walletBet      = "/wallet/bet"
@@ -170,9 +173,9 @@ func HandleRollback(mux *mux.Router, handler Rollback) {
 
 func buildRequestHeaders(r *http.Request) *HookRequestHeader {
 	return &HookRequestHeader{
-		XApiKey:            r.Header.Get(_xApiKey),
-		XTenantId:          r.Header.Get(_xTenantID),
-		XTenantPlayerToken: r.Header.Get(_xTenantPlayerToken),
-		XGameId:            r.Header.Get(_xGameID),
+		XApiKey:            r.Header.Get(XApiKey),
+		XTenantId:          r.Header.Get(XTenantId),
+		XTenantPlayerToken: r.Header.Get(XTenantPlayerToken),
+		XGameId:            r.Header.Get(XGameId),
 	}
 }
