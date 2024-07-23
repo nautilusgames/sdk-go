@@ -49,8 +49,8 @@ type TransactionReply struct {
 }
 
 type TransactionData struct {
-	TxId       int64   `json:"tx_id"`
-	SessionId  int64   `json:"session_id"`
+	TxId       string  `json:"tx_id"`
+	SessionId  string  `json:"session_id"`
 	Currency   string  `json:"currency"`
 	Amount     float64 `json:"amount"`
 	NewBalance float64 `json:"new_balance"`
