@@ -10,8 +10,8 @@ import (
 
 const (
 	// Endpoint APIs
-	EndpointGetToken  = "/api/hydra/v1/token"
-	EndpointListGames = "/api/gnome/v1/games"
+	EndpointGetToken  = "/api/v1/token"
+	EndpointListGames = "/api/v1/games"
 )
 
 type Client struct {
