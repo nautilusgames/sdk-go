@@ -11,11 +11,10 @@ import (
 )
 
 var (
-	// For those header the first value is the main one, others are for legacy support
-	_xApiKey            = []string{"x-api-key", "x-tenant-secret", "t-secret"}
-	_xTenantID          = []string{"x-tenant-id", "t-id"}
-	_xTenantPlayerToken = []string{"x-tenant-player-token", "x-tenant-token", "t-token"}
-	_xGameID            = []string{"x-game-id", "g-id"}
+	_xApiKey            = "x-api-key"
+	_xTenantID          = "x-tenant-id"
+	_xTenantPlayerToken = "x-tenant-player-token"
+	_xGameID            = "x-game-id"
 
 	_verifyPlayer   = "/player/verify"
 	_walletGet      = "/wallet/get"
@@ -42,7 +41,7 @@ func HandleVerifyPlayer(mux *mux.Router, handler VerifyPlayer) {
 		// handler read request & call func execute verifyPlayer
 
 		request := &VerifyPlayerRequest{}
-		headerRequest := readHeader(r)
+		headerRequest := buildRequestHeaders(r)
 		request.Header = headerRequest
 		reply, err := handler(r.Context(), request)
 		if err != nil {
@@ -60,10 +59,8 @@ func HandleVerifyPlayer(mux *mux.Router, handler VerifyPlayer) {
 
 func HandleGetWallet(mux *mux.Router, handler GetWallet) {
 	mux.HandleFunc(_walletGet, func(w http.ResponseWriter, r *http.Request) {
-		// handler read request & call func execute getWallet
-
 		request := &GetWalletRequest{}
-		headerRequest := readHeader(r)
+		headerRequest := buildRequestHeaders(r)
 		request.Header = headerRequest
 		reply, err := handler(r.Context(), request)
 		if err != nil {
@@ -81,10 +78,8 @@ func HandleGetWallet(mux *mux.Router, handler GetWallet) {
 
 func HandleBet(mux *mux.Router, handler Bet) {
 	mux.HandleFunc(_walletBet, func(w http.ResponseWriter, r *http.Request) {
-		// handler read request & call func execute bet
-
 		request := &TransactionRequest{}
-		headerRequest := readHeader(r)
+		headerRequest := buildRequestHeaders(r)
 		if err := builder.ToRequest(r.Body, request); err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
@@ -106,10 +101,8 @@ func HandleBet(mux *mux.Router, handler Bet) {
 
 func HandlePayout(mux *mux.Router, handler Payout) {
 	mux.HandleFunc(_walletPayout, func(w http.ResponseWriter, r *http.Request) {
-		// handler read request & call func execute payout
-
 		request := &TransactionRequest{}
-		headerRequest := readHeader(r)
+		headerRequest := buildRequestHeaders(r)
 		if err := builder.ToRequest(r.Body, request); err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
@@ -131,10 +124,8 @@ func HandlePayout(mux *mux.Router, handler Payout) {
 
 func HandleRefund(mux *mux.Router, handler Refund) {
 	mux.HandleFunc(_walletRefund, func(w http.ResponseWriter, r *http.Request) {
-		// handler read request & call func execute payout
-
 		request := &TransactionRequest{}
-		headerRequest := readHeader(r)
+		headerRequest := buildRequestHeaders(r)
 		if err := builder.ToRequest(r.Body, request); err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
@@ -156,10 +147,8 @@ func HandleRefund(mux *mux.Router, handler Refund) {
 
 func HandleRollback(mux *mux.Router, handler Rollback) {
 	mux.HandleFunc(_walletRollback, func(w http.ResponseWriter, r *http.Request) {
-		// handler read request & call func execute payout
-
 		request := &TransactionRequest{}
-		headerRequest := readHeader(r)
+		headerRequest := buildRequestHeaders(r)
 		if err := builder.ToRequest(r.Body, request); err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
@@ -179,22 +168,11 @@ func HandleRollback(mux *mux.Router, handler Rollback) {
 	})
 }
 
-func readHeader(r *http.Request) *HookRequestHeader {
-	header := &HookRequestHeader{}
-	header.XApiKey = extractHeader(r, _xApiKey...)
-	header.XTenantId = extractHeader(r, _xTenantID...)
-	header.XTenantPlayerToken = extractHeader(r, _xTenantPlayerToken...)
-	header.XGameId = extractHeader(r, _xGameID...)
-	return header
-}
-
-func extractHeader(r *http.Request, names ...string) string {
-	for _, name := range names {
-		value := r.Header.Get(name)
-		if len(value) > 0 {
-			return value
-		}
+func buildRequestHeaders(r *http.Request) *HookRequestHeader {
+	return &HookRequestHeader{
+		XApiKey:            r.Header.Get(_xApiKey),
+		XTenantId:          r.Header.Get(_xTenantID),
+		XTenantPlayerToken: r.Header.Get(_xTenantPlayerToken),
+		XGameId:            r.Header.Get(_xGameID),
 	}
-
-	return ""
 }
