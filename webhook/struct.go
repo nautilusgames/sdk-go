@@ -36,8 +36,9 @@ type GetWalletReply struct {
 }
 
 type TransactionRequest struct {
+	TxId      string             `json:"tx_id"`
+	SessionId string             `json:"session_id"`
 	Currency  string             `json:"currency"`
-	SessionId int64              `json:"session_id"`
 	Amount    float64            `json:"amount"`
 	Header    *HookRequestHeader `json:"header,omitempty"`
 }
@@ -48,12 +49,12 @@ type TransactionReply struct {
 }
 
 type TransactionData struct {
-	Id         int64   `json:"id"`
-	Currency   string  `json:"currency"`
-	SessionId  int64   `json:"session_id"`
-	Amount     float64 `json:"amount"`
-	NewBalance float64 `json:"new_balance"`
-	CreatedAt  int64   `json:"created_at"`
+	TenantTxId      string  `json:"tenant_tx_id"`
+	TenantSessionId string  `json:"tenant_session_id"`
+	Currency        string  `json:"currency"`
+	Amount          float64 `json:"amount"`
+	NewBalance      float64 `json:"new_balance"`
+	CreatedAt       int64   `json:"created_at"`
 }
 
 type PlayerWallet struct {
