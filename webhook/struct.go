@@ -58,7 +58,7 @@ type TransactionData struct {
 }
 
 type PlayerWallet struct {
-	Currency string  `json:"currency"`
-	Balance  float64 `json:"balance"`
-	LastTxId int64   `json:"last_tx_id"`
+	Currency  string  `json:"currency"`
+	Balance   float64 `json:"balance"`
+	UpdatedAt int64   `json:"updated_at"`
 }
