@@ -10,8 +10,8 @@ import (
 
 // ListGames API support get list game follow token from API GetToken
 // params is pagination with page & page_size
-func (s *Client) ListGames(ctx context.Context, request *ListGamesRequest) (*GameResponse, error) {
-	var resp *GameResponse
+func (s *Client) ListGames(ctx context.Context, request *ListGamesRequest) (*ListGamesReply, error) {
+	var resp *ListGamesReply
 	url, err := builder.StructToURLValues(fmt.Sprintf("%s%s", s.domain, EndpointListGames), request)
 	if err != nil {
 		return nil, err

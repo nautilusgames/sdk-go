@@ -15,7 +15,7 @@ func main() {
 	ctx := context.TODO()
 	logger := zap.NewExample()
 	client := sgc.NewClient(&http.Client{}).
-		WithDomain("your-domain").
+		WithDomain("https://t.ssn-571.com").
 		WithAPIKey("your-api-key").
 		WithTenantID("your-tenant-id")
 
