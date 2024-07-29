@@ -40,6 +40,7 @@ type TransactionRequest struct {
 	SessionId string             `json:"session_id"`
 	Currency  string             `json:"currency"`
 	Amount    float64            `json:"amount"`
+	Status    string             `json:"status"`
 	Header    *HookRequestHeader `json:"header,omitempty"`
 }
 
