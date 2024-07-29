@@ -17,7 +17,8 @@ type VerifyPlayerRequest struct {
 }
 
 type VerifyPlayerReply struct {
-	Data *PlayerInfo `json:"data"`
+	Data  *PlayerInfo `json:"data"`
+	Error *Error      `json:"error"`
 }
 
 type PlayerInfo struct {
