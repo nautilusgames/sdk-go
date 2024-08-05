@@ -60,6 +60,7 @@ type RollbackRequest struct {
 
 	TxId      string  `json:"tx_id"`
 	RefTxId   string  `json:"ref_tx_id"`
+	BetTxId   string  `json:"bet_tx_id"`
 	SessionId string  `json:"session_id"`
 	Currency  string  `json:"currency"`
 	Amount    float64 `json:"amount"`
