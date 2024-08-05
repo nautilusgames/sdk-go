@@ -34,7 +34,7 @@ type (
 	// wallet
 	GetWallet func(ctx context.Context, request *GetWalletRequest) (*GetWalletReply, error)
 	Bet       func(ctx context.Context, request *TransactionRequest) (*TransactionReply, error)
-	Payout    func(ctx context.Context, request *TransactionRequest) (*TransactionReply, error)
+	Payout    func(ctx context.Context, request *PayoutRequest) (*TransactionReply, error)
 	Refund    func(ctx context.Context, request *TransactionRequest) (*TransactionReply, error)
 	Rollback  func(ctx context.Context, request *TransactionRequest) (*TransactionReply, error)
 )
@@ -104,7 +104,7 @@ func HandleBet(mux *mux.Router, handler Bet) {
 
 func HandlePayout(mux *mux.Router, handler Payout) {
 	mux.HandleFunc(_walletPayout, func(w http.ResponseWriter, r *http.Request) {
-		request := &TransactionRequest{}
+		request := &PayoutRequest{}
 		headerRequest := buildRequestHeaders(r)
 		if err := builder.ToRequest(r.Body, request); err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
