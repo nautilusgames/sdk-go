@@ -33,10 +33,10 @@ type (
 
 	// wallet
 	GetWallet func(ctx context.Context, request *GetWalletRequest) (*GetWalletReply, error)
-	Bet       func(ctx context.Context, request *TransactionRequest) (*TransactionReply, error)
+	Bet       func(ctx context.Context, request *BetRequest) (*TransactionReply, error)
 	Payout    func(ctx context.Context, request *PayoutRequest) (*TransactionReply, error)
-	Refund    func(ctx context.Context, request *TransactionRequest) (*TransactionReply, error)
-	Rollback  func(ctx context.Context, request *TransactionRequest) (*TransactionReply, error)
+	Refund    func(ctx context.Context, request *RefundRequest) (*TransactionReply, error)
+	Rollback  func(ctx context.Context, request *RollbackRequest) (*TransactionReply, error)
 )
 
 func HandleVerifyPlayer(mux *mux.Router, handler VerifyPlayer) {
@@ -81,7 +81,7 @@ func HandleGetWallet(mux *mux.Router, handler GetWallet) {
 
 func HandleBet(mux *mux.Router, handler Bet) {
 	mux.HandleFunc(_walletBet, func(w http.ResponseWriter, r *http.Request) {
-		request := &TransactionRequest{}
+		request := &BetRequest{}
 		headerRequest := buildRequestHeaders(r)
 		if err := builder.ToRequest(r.Body, request); err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
@@ -127,7 +127,7 @@ func HandlePayout(mux *mux.Router, handler Payout) {
 
 func HandleRefund(mux *mux.Router, handler Refund) {
 	mux.HandleFunc(_walletRefund, func(w http.ResponseWriter, r *http.Request) {
-		request := &TransactionRequest{}
+		request := &RefundRequest{}
 		headerRequest := buildRequestHeaders(r)
 		if err := builder.ToRequest(r.Body, request); err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
@@ -150,7 +150,7 @@ func HandleRefund(mux *mux.Router, handler Refund) {
 
 func HandleRollback(mux *mux.Router, handler Rollback) {
 	mux.HandleFunc(_walletRollback, func(w http.ResponseWriter, r *http.Request) {
-		request := &TransactionRequest{}
+		request := &RollbackRequest{}
 		headerRequest := buildRequestHeaders(r)
 		if err := builder.ToRequest(r.Body, request); err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)

@@ -36,10 +36,30 @@ type GetWalletReply struct {
 	Error *Error        `json:"error"`
 }
 
-type TransactionRequest struct {
+type BetRequest struct {
 	Header *HookRequestHeader `json:"header,omitempty"`
 
 	TxId      string  `json:"tx_id"`
+	SessionId string  `json:"session_id"`
+	Currency  string  `json:"currency"`
+	Amount    float64 `json:"amount"`
+}
+
+type RefundRequest struct {
+	Header *HookRequestHeader `json:"header,omitempty"`
+
+	TxId      string  `json:"tx_id"`
+	RefTxId   string  `json:"ref_tx_id"`
+	SessionId string  `json:"session_id"`
+	Currency  string  `json:"currency"`
+	Amount    float64 `json:"amount"`
+}
+
+type RollbackRequest struct {
+	Header *HookRequestHeader `json:"header,omitempty"`
+
+	TxId      string  `json:"tx_id"`
+	RefTxId   string  `json:"ref_tx_id"`
 	SessionId string  `json:"session_id"`
 	Currency  string  `json:"currency"`
 	Amount    float64 `json:"amount"`
@@ -49,10 +69,11 @@ type PayoutRequest struct {
 	Header *HookRequestHeader `json:"header,omitempty"`
 
 	TxId      string  `json:"tx_id"`
+	RefTxId   string  `json:"ref_tx_id"`
 	SessionId string  `json:"session_id"`
 	Currency  string  `json:"currency"`
 	Amount    float64 `json:"amount"`
-	// Possible values: [IN_PROGRESS, SETTLE, FEATURE, JACKPOT, BONUS_WITHDRAWAL, FREE_WITHDRAWAL]
+	// Possible values: [SETTLE, FEATURE, JACKPOT, BONUS_WITHDRAWAL, FREE_WITHDRAWAL]
 	PayoutType string `json:"payout_type"`
 }
 
