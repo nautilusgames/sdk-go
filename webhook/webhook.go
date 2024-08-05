@@ -33,7 +33,7 @@ type (
 
 	// wallet
 	GetWallet func(ctx context.Context, request *GetWalletRequest) (*GetWalletReply, error)
-	Bet       func(ctx context.Context, request *TransactionRequest) (*TransactionReply, error)
+	Bet       func(ctx context.Context, request *BetRequest) (*TransactionReply, error)
 	Payout    func(ctx context.Context, request *PayoutRequest) (*TransactionReply, error)
 	Refund    func(ctx context.Context, request *TransactionRequest) (*TransactionReply, error)
 	Rollback  func(ctx context.Context, request *TransactionRequest) (*TransactionReply, error)
