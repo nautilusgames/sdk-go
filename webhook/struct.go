@@ -37,12 +37,23 @@ type GetWalletReply struct {
 }
 
 type TransactionRequest struct {
-	TxId      string             `json:"tx_id"`
-	SessionId string             `json:"session_id"`
-	Currency  string             `json:"currency"`
-	Amount    float64            `json:"amount"`
-	Status    string             `json:"status"`
-	Header    *HookRequestHeader `json:"header,omitempty"`
+	Header *HookRequestHeader `json:"header,omitempty"`
+
+	TxId      string  `json:"tx_id"`
+	SessionId string  `json:"session_id"`
+	Currency  string  `json:"currency"`
+	Amount    float64 `json:"amount"`
+}
+
+type PayoutRequest struct {
+	Header *HookRequestHeader `json:"header,omitempty"`
+
+	TxId      string  `json:"tx_id"`
+	SessionId string  `json:"session_id"`
+	Currency  string  `json:"currency"`
+	Amount    float64 `json:"amount"`
+	// Possible values: [IN_PROGRESS, SETTLE, FEATURE, JACKPOT, BONUS_WITHDRAWAL, FREE_WITHDRAWAL]
+	PayoutType string `json:"payout_type"`
 }
 
 type TransactionReply struct {
