@@ -40,6 +40,7 @@ type BetRequest struct {
 	Header *HookRequestHeader `json:"header,omitempty"`
 
 	TxId      string  `json:"tx_id"`
+	RefTxId   string  `json:"ref_tx_id"`
 	SessionId string  `json:"session_id"`
 	Currency  string  `json:"currency"`
 	Amount    float64 `json:"amount"`
