@@ -5,6 +5,7 @@ type HookRequestHeader struct {
 	XTenantId          string `json:"x_tenant_id,omitempty"`           // x-tenant-id
 	XTenantPlayerToken string `json:"x_tenant_player_token,omitempty"` // x-tenant-player-token
 	XGameId            string `json:"x_game_id,omitempty"`             // x-game-id
+	XRequestId         string `json:"x_request_id,omitempty"`          // x-request-id
 }
 
 type Error struct {

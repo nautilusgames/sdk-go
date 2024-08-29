@@ -16,6 +16,7 @@ const (
 	XTenantId          = "x-tenant-id"
 	XTenantPlayerToken = "x-tenant-player-token"
 	XGameId            = "x-game-id"
+	XRequestId         = "x-request-id"
 )
 
 const (
@@ -177,5 +178,6 @@ func buildRequestHeaders(r *http.Request) *HookRequestHeader {
 		XTenantId:          r.Header.Get(XTenantId),
 		XTenantPlayerToken: r.Header.Get(XTenantPlayerToken),
 		XGameId:            r.Header.Get(XGameId),
+		XRequestId:         r.Header.Get(XRequestId),
 	}
 }
