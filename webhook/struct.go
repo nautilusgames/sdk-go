@@ -23,9 +23,10 @@ type VerifyPlayerReply struct {
 }
 
 type PlayerInfo struct {
-	Id       string `json:"id"`
-	Nickname string `json:"nickname"`
-	Avatar   string `json:"avatar"`
+	Id       string            `json:"id"`
+	Nickname string            `json:"nickname"`
+	Avatar   string            `json:"avatar"`
+	Metadata map[string]string `json:"metadata,omitempty"`
 }
 
 type GetWalletRequest struct {
