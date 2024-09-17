@@ -13,6 +13,9 @@ type ListGamesRequest struct {
 	Orientations []string `protobuf:"varint,6,rep,packed,name=orientations,proto3" json:"orientations,omitempty"`
 	Labels       []string `protobuf:"varint,7,rep,packed,name=labels,proto3" json:"labels,omitempty"`
 	Languages    []string `protobuf:"bytes,8,rep,name=languages,proto3" json:"languages,omitempty"`
+	SortType     string   `protobuf:"varint,9,opt,name=sort_type,json=sortType,proto3" json:"sort_type,omitempty"`
+	SortCriteria string   `protobuf:"varint,10,opt,name=sort_criteria,json=sortCriteria,proto3" json:"sort_criteria,omitempty"`
+	SortLanguage string   `protobuf:"bytes,11,opt,name=sort_language,json=sortLanguage,proto3" json:"sort_language,omitempty"`
 }
 
 type ListGamesReply struct {
