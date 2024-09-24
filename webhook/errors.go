@@ -1,5 +1,7 @@
 package webhook
 
+import "fmt"
+
 const (
 	ErrUnknown                 = 1000
 	ErrInvalidRequest          = 1034
@@ -30,3 +32,19 @@ const (
 	ErrInvalidCurrency         = 3206
 	ErrInsufficient            = 3202
 )
+
+type HTTPError struct {
+	StatusCode int
+	Message    string
+}
+
+func (e *HTTPError) Error() string {
+	return fmt.Sprintf("code: %d, message: %v", e.StatusCode, e.Message)
+}
+
+func NewHTTPError(statusCode int, message string) *HTTPError {
+	return &HTTPError{
+		StatusCode: statusCode,
+		Message:    message,
+	}
+}
