@@ -4,7 +4,7 @@ type HookRequestHeader struct {
 	XApiKey            string `json:"x_api_key,omitempty"`             // x-api-key
 	XTenantId          string `json:"x_tenant_id,omitempty"`           // x-tenant-id
 	XTenantPlayerToken string `json:"x_tenant_player_token,omitempty"` // x-tenant-player-token
-	XTenantPlayerID    string `json:"x_tenant_player_id,omitempty"`    // x-tenant-player-id
+	XTenantPlayerId    string `json:"x_tenant_player_id,omitempty"`    // x-tenant-player-id
 	XGameId            string `json:"x_game_id,omitempty"`             // x-game-id
 	XRequestId         string `json:"x_request_id,omitempty"`          // x-request-id
 }
