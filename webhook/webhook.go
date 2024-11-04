@@ -66,6 +66,10 @@ func HandleGetWallet(mux *mux.Router, handler GetWallet) {
 	mux.HandleFunc(_walletGet, func(w http.ResponseWriter, r *http.Request) {
 		request := &GetWalletRequest{}
 		headerRequest := buildRequestHeaders(r)
+		if err := builder.ToRequest(r.Body, request); err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
 		request.Header = headerRequest
 		reply, err := handler(r.Context(), request)
 		if err != nil {
