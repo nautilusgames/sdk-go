@@ -85,6 +85,15 @@ type PayoutRequest struct {
 	IsEndSession bool   `json:"is_end_session"`
 }
 
+type CancelRequest struct {
+	Header *HookRequestHeader `json:"header,omitempty"`
+
+	TxId      string `json:"tx_id"`
+	RefTxId   string `json:"ref_tx_id"`
+	SessionId string `json:"session_id"`
+	Currency  string `json:"currency"`
+}
+
 type TransactionReply struct {
 	Data  *TransactionData `json:"data"`
 	Error *Error           `json:"error"`

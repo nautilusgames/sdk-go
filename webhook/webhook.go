@@ -27,6 +27,7 @@ const (
 	_walletPayout   = "/wallet/payout"
 	_walletRefund   = "/wallet/refund"
 	_walletRollback = "/wallet/rollback"
+	_walletCancel   = "/wallet/cancel"
 )
 
 type (
@@ -39,6 +40,7 @@ type (
 	Payout    func(ctx context.Context, request *PayoutRequest) (*TransactionReply, error)
 	Refund    func(ctx context.Context, request *RefundRequest) (*TransactionReply, error)
 	Rollback  func(ctx context.Context, request *RollbackRequest) (*TransactionReply, error)
+	Cancel    func(ctx context.Context, request *CancelRequest) (*TransactionReply, error)
 )
 
 func HandleVerifyPlayer(mux *mux.Router, handler VerifyPlayer) {
@@ -157,6 +159,29 @@ func HandleRefund(mux *mux.Router, handler Refund) {
 func HandleRollback(mux *mux.Router, handler Rollback) {
 	mux.HandleFunc(_walletRollback, func(w http.ResponseWriter, r *http.Request) {
 		request := &RollbackRequest{}
+		headerRequest := buildRequestHeaders(r)
+		if err := builder.ToRequest(r.Body, request); err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		request.Header = headerRequest
+		reply, err := handler(r.Context(), request)
+		if err != nil {
+			var httpErr *HTTPError
+			if errors.As(err, &httpErr) {
+				http.Error(w, httpErr.Message, httpErr.StatusCode)
+			} else {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
+			return
+		}
+		builder.SendReply(w, reply)
+	})
+}
+
+func HandleCancel(mux *mux.Router, handler Cancel) {
+	mux.HandleFunc(_walletRollback, func(w http.ResponseWriter, r *http.Request) {
+		request := &CancelRequest{}
 		headerRequest := buildRequestHeaders(r)
 		if err := builder.ToRequest(r.Body, request); err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
