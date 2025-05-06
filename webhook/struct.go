@@ -81,8 +81,9 @@ type PayoutRequest struct {
 	Currency  string  `json:"currency"`
 	Amount    float64 `json:"amount"`
 	// Possible values: [SETTLE, FEATURE, JACKPOT, BONUS_WITHDRAWAL, FREE_WITHDRAWAL]
-	PayoutType   string `json:"payout_type"`
-	IsEndSession bool   `json:"is_end_session"`
+	PayoutType   string  `json:"payout_type"`
+	ValidBet     float64 `json:"valid_bet"`
+	IsEndSession bool    `json:"is_end_session"`
 }
 
 type CancelRequest struct {
