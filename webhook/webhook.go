@@ -180,7 +180,7 @@ func HandleRollback(mux *mux.Router, handler Rollback) {
 }
 
 func HandleCancel(mux *mux.Router, handler Cancel) {
-	mux.HandleFunc(_walletRollback, func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc(_walletCancel, func(w http.ResponseWriter, r *http.Request) {
 		request := &CancelRequest{}
 		headerRequest := buildRequestHeaders(r)
 		if err := builder.ToRequest(r.Body, request); err != nil {
